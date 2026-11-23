@@ -1,15 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { safeNext } from "@/lib/safe-next";
 import { createClient } from "@/lib/supabase/server";
 import { firstIssue, signInSchema, signUpSchema } from "@/lib/validation";
 
 export type AuthState = { error?: string } | undefined;
 
-function safeNext(next: FormDataEntryValue | null): string {
-  const n = typeof next === "string" ? next : "";
-  return n.startsWith("/") && !n.startsWith("//") ? n : "/today";
-}
 
 export async function signUp(_: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = signUpSchema.safeParse(Object.fromEntries(formData));

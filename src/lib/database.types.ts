@@ -497,6 +497,12 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"am_demo":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"am_site_admin":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
 "assert_can_moderate":
 { Args: { "actor": string,"gid": string,"target": string }; Returns: undefined
                            },
@@ -618,6 +624,12 @@ isOneToOne: false
 "group_role":
 { Args: { "gid": string,"uid": string }; Returns: string
                            },
+"i_can_moderate_group":
+{ Args: { "gid": string }; Returns: boolean
+                           },
+"i_can_read_group":
+{ Args: { "gid": string }; Returns: boolean
+                           },
 "invite_preview":
 { Args: { "invite_code": string }; Returns: {
               "group_id": string,"group_name": string,"slug": string,"valid": boolean
@@ -646,6 +658,9 @@ isOneToOne: false
                            },
 "mute_user":
 { Args: { "days": number,"group_id": string,"uid": string }; Returns: undefined
+                           },
+"my_group_role":
+{ Args: { "gid": string }; Returns: string
                            },
 "redeem_invite":
 { Args: { "invite_code": string }; Returns: {
