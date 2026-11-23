@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Calm, paper-like palette. Accent is a warm lamp-light amber. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-2: #f3eee6;
+  --ink: #1f1c18;
+  --muted: #6b645b;
+  --line: #e6dfd3;
+  --accent: #a4561f;
+  --accent-ink: #ffffff;
+  --accent-soft: #f6e7d9;
+  --danger: #b3261e;
+  --ok: #2e6b3f;
+}
+[data-theme="dark"] {
+  --bg: #14120f;
+  --surface: #1c1915;
+  --surface-2: #25211c;
+  --ink: #ede7dd;
+  --muted: #a89f92;
+  --line: #34302a;
+  --accent: #e09a5f;
+  --accent-ink: #1b130c;
+  --accent-soft: #3a2a1d;
+  --danger: #f2b8b5;
+  --ok: #9cd3a7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-lora);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

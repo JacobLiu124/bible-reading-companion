@@ -1,5 +1,5 @@
 begin;
-select plan(13);
+select plan(15);
 
 select tests.create_user('ann@test.local', 'ann', 'UTC');
 select tests.create_user('ben@test.local', 'ben', 'Pacific/Auckland');
@@ -62,6 +62,8 @@ select is((select weekly_goal from public.profiles where id = auth.uid()), 5, 's
 reset role;
 select tests.act_as_anon();
 select is((select count(*)::int from public.profiles), 0, 'anon cannot read profiles');
+select is(public.username_available('Ann'), false, 'taken username (any case) is unavailable');
+select is(public.username_available('newname'), true, 'free username is available');
 
 select * from finish();
 rollback;
