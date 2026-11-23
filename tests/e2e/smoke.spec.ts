@@ -31,6 +31,20 @@ test("daily loop: sign up, check in, share to the global thread, streak updates"
   await expect(page.locator("article", { hasText: reflection })).toBeVisible();
 });
 
+test("account deleted on another device: the stale session signs out instead of looping", async ({ browser }) => {
+  const phone = await signUp(browser, "Del");
+  const laptop = await (await browser.newContext({ storageState: await phone.context().storageState() })).newPage();
+
+  await phone.goto("/settings");
+  await phone.getByLabel(/Type .* to confirm/).fill(`del_${run}`);
+  await phone.getByRole("button", { name: "Delete my account" }).click();
+  await expect(phone).toHaveURL(/\/$/);
+
+  await laptop.goto("/today");
+  await expect(laptop).toHaveURL(/\/sign-in/);
+  await expect(laptop.getByRole("heading", { name: "Welcome back" })).toBeVisible();
+});
+
 test("private group: hidden from outsiders until they use an invite", async ({ browser }) => {
   const owner = await signUp(browser, "Owen");
   await owner.goto("/groups/new");

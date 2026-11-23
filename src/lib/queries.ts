@@ -4,10 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { getViewer, type Viewer } from "@/lib/viewer";
 import type { GroupOption } from "@/lib/types";
 
-/** The viewer, or a redirect to sign-in. */
+/**
+ * The viewer, or a redirect that signs out. Signed-out visitors never reach pages
+ * (the proxy sends them to /sign-in), so no viewer here means a stale session whose
+ * account is gone: clear it rather than bounce between /sign-in and /today.
+ */
 export async function requireViewer(): Promise<Viewer> {
   const viewer = await getViewer();
-  if (!viewer) redirect("/sign-in");
+  if (!viewer) redirect("/auth/sign-out");
   return viewer;
 }
 
