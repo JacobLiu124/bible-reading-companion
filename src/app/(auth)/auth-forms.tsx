@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useSyncExternalStore } from "react";
 import { Button, Field, FormError, Input } from "@/components/ui";
 import { signIn, signInDemo, signUp } from "./actions";
+
+const noopSubscribe = () => () => {};
 
 function NextInput() {
   const next = useSearchParams().get("next") ?? "";
@@ -38,8 +40,11 @@ export function SignInForm() {
 
 export function SignUpForm() {
   const [state, action, pending] = useActionState(signUp, undefined);
-  const [tz, setTz] = useState("UTC");
-  useEffect(() => setTz(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"), []);
+  const tz = useSyncExternalStore(
+    noopSubscribe,
+    () => Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+    () => "UTC",
+  );
   return (
     <form action={action} className="space-y-4">
       <NextInput />
