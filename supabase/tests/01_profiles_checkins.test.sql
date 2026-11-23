@@ -12,7 +12,7 @@ delete from public.reading_schedule;
 -- signup trigger
 select results_eq(
   $$ select username, timezone, weekly_goal from public.profiles where id = tests.uid('ben') $$,
-  $$ values ('ben'::text, 'Pacific/Auckland'::text, 3) $$,
+  $$ values ('t_ben'::text, 'Pacific/Auckland'::text, 3) $$,
   'signup trigger creates profile from metadata');
 select is((select goal from public.goal_history where user_id = tests.uid('ben')), 3,
   'signup trigger creates goal_history row with goal 3');
@@ -62,7 +62,7 @@ select is((select weekly_goal from public.profiles where id = auth.uid()), 5, 's
 reset role;
 select tests.act_as_anon();
 select is((select count(*)::int from public.profiles), 0, 'anon cannot read profiles');
-select is(public.username_available('Ann'), false, 'taken username (any case) is unavailable');
+select is(public.username_available('T_Ann'), false, 'taken username (any case) is unavailable');
 select is(public.username_available('newname'), true, 'free username is available');
 
 select * from finish();

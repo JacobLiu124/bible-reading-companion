@@ -1,4 +1,4 @@
--- Test helpers. Lives in the `tests` schema of the LOCAL database only;
+-- Test helpers. Test usernames get a 't_' prefix so they never clash with real data. Lives in the `tests` schema of the LOCAL database only;
 -- `supabase test db` runs files in name order, so this file runs first.
 begin;
 select plan(1);
@@ -14,7 +14,7 @@ begin
     raw_user_meta_data, raw_app_meta_data, created_at, updated_at, email_confirmed_at)
   values (uid, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
     p_email, crypt('password123', gen_salt('bf')),
-    jsonb_build_object('username', p_username, 'display_name', p_username, 'timezone', p_tz),
+    jsonb_build_object('username', 't_' || p_username, 'display_name', p_username, 'timezone', p_tz),
     '{}'::jsonb, now(), now(), now());
   return uid;
 end $$;
@@ -34,7 +34,7 @@ end $$;
 
 create or replace function tests.uid(p_username text) returns uuid
 language sql security definer set search_path = public as $$
-  select id from auth.users where raw_user_meta_data->>'username' = p_username
+  select id from auth.users where raw_user_meta_data->>'username' = 't_' || p_username
 $$;
 
 grant execute on all functions in schema tests to anon, authenticated;

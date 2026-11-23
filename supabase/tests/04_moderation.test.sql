@@ -103,7 +103,7 @@ select tests.act_as(tests.uid('own'));
 select public.delete_my_account();
 reset role;
 select is((select count(*)::int from public.moderation_actions
-           where target_username = 'mem' and actor_id is null and actor_username = 'own'), 1,
+           where target_username = 't_mem' and actor_id is null and actor_username = 't_own'), 1,
   'moderation log survives the moderator deleting their account');
 select is((select role from public.group_members where group_id = (select priv from ids)
            and user_id = tests.uid('mem')), 'owner',

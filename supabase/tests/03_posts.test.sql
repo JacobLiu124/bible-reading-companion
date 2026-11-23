@@ -41,7 +41,7 @@ select public.check_in();
 select is((select count(*)::int from public.create_reading_post(
            array[(select priv from ids), (select pub from ids)], true, 'The Lord is my shepherd', 'Psalm 23:1', 'The Lord is my shepherd')),
   3, 'one reading post per destination');
-select is((select reference from public.feed_posts where group_id is null limit 1), 'Psalm 23',
+select is((select reference from public.feed_posts where group_id is null and author_id = auth.uid() limit 1), 'Psalm 23',
   'reading post tagged with today''s chapter');
 select public.add_comment((select id from public.feed_posts where group_id = (select priv from ids)), 'amen');
 select is((select count(*)::int from public.feed_comments c join public.feed_posts p on p.id = c.post_id
