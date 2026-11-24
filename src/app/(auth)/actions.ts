@@ -7,7 +7,6 @@ import { firstIssue, signInSchema, signUpSchema } from "@/lib/validation";
 
 export type AuthState = { error?: string } | undefined;
 
-
 export async function signUp(_: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = signUpSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: firstIssue(parsed.error) };
@@ -24,9 +23,7 @@ export async function signUp(_: AuthState, formData: FormData): Promise<AuthStat
   });
   if (error) {
     return {
-      error: /already registered/i.test(error.message)
-        ? "That email already has an account."
-        : error.message,
+      error: /already registered/i.test(error.message) ? "That email already has an account." : error.message,
     };
   }
   redirect(safeNext(formData.get("next")));

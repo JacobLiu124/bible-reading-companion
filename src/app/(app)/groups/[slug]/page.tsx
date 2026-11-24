@@ -32,17 +32,34 @@ async function Group({ params }: { params: Params }) {
   if (!group) notFound();
 
   const [membership, posts, memberCount] = await Promise.all([
-    supabase.from("group_members").select("role, muted_until").eq("group_id", group.id).eq("user_id", viewer.id).maybeSingle(),
-    supabase.from("feed_posts").select("*").eq("group_id", group.id).order("created_at", { ascending: false }).limit(100),
-    supabase.from("group_members").select("user_id", { count: "exact", head: true }).eq("group_id", group.id).eq("banned", false),
+    supabase
+      .from("group_members")
+      .select("role, muted_until")
+      .eq("group_id", group.id)
+      .eq("user_id", viewer.id)
+      .maybeSingle(),
+    supabase
+      .from("feed_posts")
+      .select("*")
+      .eq("group_id", group.id)
+      .order("created_at", { ascending: false })
+      .limit(100),
+    supabase
+      .from("group_members")
+      .select("user_id", { count: "exact", head: true })
+      .eq("group_id", group.id)
+      .eq("banned", false),
   ]);
   const role = membership.data?.role;
   const isMember = Boolean(role);
-  const isMod = role === "owner" || role === "admin" || (viewer.profile.is_site_admin && group.visibility === "public");
+  const isMod =
+    role === "owner" || role === "admin" || (viewer.profile.is_site_admin && group.visibility === "public");
   const readOnly = viewer.profile.is_demo;
   const denom = denominationLabel(group.denomination);
-  const mutedUntil = membership.data?.muted_until && new Date(membership.data.muted_until) > new Date()
-    ? membership.data.muted_until : null;
+  const mutedUntil =
+    membership.data?.muted_until && new Date(membership.data.muted_until) > new Date()
+      ? membership.data.muted_until
+      : null;
 
   return (
     <div className="space-y-6">
@@ -52,30 +69,58 @@ async function Group({ params }: { params: Params }) {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{group.name}</h1>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Badge>{group.visibility === "private" ? <><Lock size={12} aria-hidden /> Private</> : <><Globe size={12} aria-hidden /> Public</>}</Badge>
+              <Badge>
+                {group.visibility === "private" ? (
+                  <>
+                    <Lock size={12} aria-hidden /> Private
+                  </>
+                ) : (
+                  <>
+                    <Globe size={12} aria-hidden /> Public
+                  </>
+                )}
+              </Badge>
               {denom && <Badge>{denom}</Badge>}
               <Badge>{memberCount.count ?? 0} members</Badge>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            {isMod && <Link href={`/groups/${group.slug}/settings`} className="rounded-full border border-line px-4 py-2 text-sm hover:bg-surface-2">Manage</Link>}
+            {isMod && (
+              <Link
+                href={`/groups/${group.slug}/settings`}
+                className="border-line hover:bg-surface-2 rounded-full border px-4 py-2 text-sm"
+              >
+                Manage
+              </Link>
+            )}
             {!isMember && group.visibility === "public" && (
-              <ActionButton variant="primary" action={joinGroupAction.bind(null, group.id)} disabled={readOnly}>Join group</ActionButton>
+              <ActionButton
+                variant="primary"
+                action={joinGroupAction.bind(null, group.id)}
+                disabled={readOnly}
+              >
+                Join group
+              </ActionButton>
             )}
             {isMember && role !== "owner" && (
-              <ActionButton variant="ghost" action={leaveGroupAction.bind(null, group.id)} confirm={`Leave ${group.name}?`} disabled={readOnly}>
+              <ActionButton
+                variant="ghost"
+                action={leaveGroupAction.bind(null, group.id)}
+                confirm={`Leave ${group.name}?`}
+                disabled={readOnly}
+              >
                 Leave
               </ActionButton>
             )}
           </div>
         </div>
-        {group.description && <p className="mt-3 text-muted">{group.description}</p>}
+        {group.description && <p className="text-muted mt-3">{group.description}</p>}
       </div>
 
       {group.rules && (
-        <div className="border-l-2 border-line pl-4">
+        <div className="border-line border-l-2 pl-4">
           <p className="text-sm font-bold">Group rules</p>
-          <p className="mt-1 whitespace-pre-wrap text-sm text-muted">{group.rules}</p>
+          <p className="text-muted mt-1 text-sm whitespace-pre-wrap">{group.rules}</p>
         </div>
       )}
 
@@ -83,22 +128,33 @@ async function Group({ params }: { params: Params }) {
         <Card>
           <h2 className="mb-3 text-lg font-bold">Post to the group</h2>
           <GeneralComposer groupId={group.id} readOnly={readOnly} />
-          <p className="mt-3 text-xs text-muted">Reading reflections are shared from the Today page after you check in.</p>
+          <p className="text-muted mt-3 text-xs">
+            Reading reflections are shared from the Today page after you check in.
+          </p>
         </Card>
       )}
       {mutedUntil && (
-        <p className="rounded-2xl bg-danger/10 p-4 text-sm text-danger">
+        <p className="bg-danger/10 text-danger rounded-2xl p-4 text-sm">
           You&apos;re muted in this group until {new Date(mutedUntil).toLocaleString()}.
         </p>
       )}
 
       <section className="space-y-3">
         {(posts.data ?? []).length === 0 ? (
-          <p className="py-6 text-muted">No posts yet. Share a prayer request or something from today&apos;s reading.</p>
+          <p className="text-muted py-6">
+            No posts yet. Share a prayer request or something from today&apos;s reading.
+          </p>
         ) : (
           <PostList>
             {(posts.data ?? []).map((p) => (
-              <PostCard key={p.id} post={p} viewerId={viewer.id} timeZone={viewer.profile.timezone} readOnly={readOnly || !isMember} showReference />
+              <PostCard
+                key={p.id}
+                post={p}
+                viewerId={viewer.id}
+                timeZone={viewer.profile.timezone}
+                readOnly={readOnly || !isMember}
+                showReference
+              />
             ))}
           </PostList>
         )}

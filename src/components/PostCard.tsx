@@ -8,7 +8,13 @@ import type { FeedPost } from "@/lib/types";
 
 /** One post in a feed: avatar on the left, words on the right, no box around it. */
 export function PostCard({
-  post, viewerId, timeZone, readOnly, showGroup = false, showReference = false, linkToPost = true,
+  post,
+  viewerId,
+  timeZone,
+  readOnly,
+  showGroup = false,
+  showReference = false,
+  linkToPost = true,
 }: {
   post: FeedPost;
   viewerId: string;
@@ -28,14 +34,16 @@ export function PostCard({
           <p className="min-w-0 text-sm leading-tight">
             <span className="font-bold">{post.author_display_name}</span>{" "}
             <span className="text-muted">@{post.author_username}</span>
-            <span className="block text-xs text-muted">
+            <span className="text-muted block text-xs">
               {formatTime(post.created_at, timeZone)}
               {post.edited_at && ", edited"}
               {showGroup && (
                 <>
                   {" in "}
                   {post.group_slug ? (
-                    <Link className="font-medium hover:underline" href={`/groups/${post.group_slug}`}>{post.group_name}</Link>
+                    <Link className="font-medium hover:underline" href={`/groups/${post.group_slug}`}>
+                      {post.group_name}
+                    </Link>
                   ) : (
                     "the global thread"
                   )}
@@ -45,9 +53,16 @@ export function PostCard({
           </p>
           <ContentMenu
             target={{
-              type: "post", id: post.id, authorId: post.author_id, authorName: post.author_display_name,
-              groupId: post.group_id, kind: post.kind, title: post.title, body: post.body,
-              verseRef: post.verse_ref, verseText: post.verse_text,
+              type: "post",
+              id: post.id,
+              authorId: post.author_id,
+              authorName: post.author_display_name,
+              groupId: post.group_id,
+              kind: post.kind,
+              title: post.title,
+              body: post.body,
+              verseRef: post.verse_ref,
+              verseText: post.verse_text,
             }}
             isAuthor={post.author_id === viewerId}
             canModerate={Boolean(post.can_moderate)}
@@ -57,27 +72,27 @@ export function PostCard({
         </header>
 
         {showReference && post.kind === "reading" && post.reference && (
-          <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-accent">
+          <p className="text-accent mt-2 inline-flex items-center gap-1.5 text-xs font-semibold">
             <BookOpen size={14} aria-hidden /> {post.reference}
           </p>
         )}
 
-        {removed && <p className="mt-2 text-sm italic text-muted">Removed by a moderator.</p>}
+        {removed && <p className="text-muted mt-2 text-sm italic">Removed by a moderator.</p>}
         {(!removed || post.can_moderate) && (
           <div className={`mt-2 space-y-2 ${removed ? "opacity-60" : ""}`}>
             {post.title && <h3 className="font-bold">{post.title}</h3>}
             {post.verse_text && (
-              <blockquote className="border-l-2 border-accent pl-3">
+              <blockquote className="border-accent border-l-2 pl-3">
                 <p>&ldquo;{post.verse_text}&rdquo;</p>
-                {post.verse_ref && <p className="mt-0.5 text-sm text-muted">{post.verse_ref}</p>}
+                {post.verse_ref && <p className="text-muted mt-0.5 text-sm">{post.verse_ref}</p>}
               </blockquote>
             )}
-            {!post.verse_text && post.verse_ref && <p className="text-sm text-muted">{post.verse_ref}</p>}
-            {post.body && <p className="whitespace-pre-wrap leading-relaxed">{post.body}</p>}
+            {!post.verse_text && post.verse_ref && <p className="text-muted text-sm">{post.verse_ref}</p>}
+            {post.body && <p className="leading-relaxed whitespace-pre-wrap">{post.body}</p>}
           </div>
         )}
 
-        <footer className="-ml-2.5 mt-2 flex items-center gap-1">
+        <footer className="mt-2 -ml-2.5 flex items-center gap-1">
           <ReactionButton
             postId={post.id}
             count={Number(post.reaction_count ?? 0)}
@@ -87,7 +102,7 @@ export function PostCard({
           {linkToPost && (
             <Link
               href={`/posts/${post.id}`}
-              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium text-muted hover:bg-surface-2 hover:text-ink"
+              className="text-muted hover:bg-surface-2 hover:text-ink inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium"
             >
               <MessageCircle size={16} aria-hidden />
               {comments > 0 ? `${comments} ${comments === 1 ? "reply" : "replies"}` : "Reply"}
@@ -101,5 +116,5 @@ export function PostCard({
 
 /** A list of posts separated by hairlines. */
 export function PostList({ children }: { children: React.ReactNode }) {
-  return <div className="divide-y divide-line">{children}</div>;
+  return <div className="divide-line divide-y">{children}</div>;
 }

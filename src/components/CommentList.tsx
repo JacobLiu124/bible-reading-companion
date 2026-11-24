@@ -4,11 +4,22 @@ import { formatTime } from "@/lib/format";
 import type { FeedComment } from "@/lib/types";
 
 export function CommentList({
-  comments, viewerId, timeZone, readOnly, groupId,
-}: { comments: FeedComment[]; viewerId: string; timeZone: string; readOnly: boolean; groupId: string | null }) {
-  if (comments.length === 0) return <p className="text-sm text-muted">No replies yet. Start the conversation.</p>;
+  comments,
+  viewerId,
+  timeZone,
+  readOnly,
+  groupId,
+}: {
+  comments: FeedComment[];
+  viewerId: string;
+  timeZone: string;
+  readOnly: boolean;
+  groupId: string | null;
+}) {
+  if (comments.length === 0)
+    return <p className="text-muted text-sm">No replies yet. Start the conversation.</p>;
   return (
-    <ul className="divide-y divide-line">
+    <ul className="divide-line divide-y">
       {comments.map((c) => {
         const removed = Boolean(c.removed);
         return (
@@ -19,20 +30,27 @@ export function CommentList({
                 <p className="text-sm leading-tight">
                   <span className="font-bold">{c.author_display_name}</span>{" "}
                   <span className="text-muted">@{c.author_username}</span>
-                  <span className="block text-xs text-muted">
+                  <span className="text-muted block text-xs">
                     {formatTime(c.created_at, timeZone)}
                     {c.edited_at && ", edited"}
                   </span>
                 </p>
                 <ContentMenu
-                  target={{ type: "comment", id: c.id, authorId: c.author_id, authorName: c.author_display_name, groupId, body: c.body }}
+                  target={{
+                    type: "comment",
+                    id: c.id,
+                    authorId: c.author_id,
+                    authorName: c.author_display_name,
+                    groupId,
+                    body: c.body,
+                  }}
                   isAuthor={c.author_id === viewerId}
                   canModerate={Boolean(c.can_moderate)}
                   readOnly={readOnly}
                   removed={removed}
                 />
               </div>
-              {removed && <p className="mt-1 text-sm italic text-muted">Removed by a moderator.</p>}
+              {removed && <p className="text-muted mt-1 text-sm italic">Removed by a moderator.</p>}
               {(!removed || c.can_moderate) && c.body && (
                 <p className={`mt-1 whitespace-pre-wrap ${removed ? "opacity-60" : ""}`}>{c.body}</p>
               )}

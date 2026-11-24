@@ -44,11 +44,11 @@ Browser ──► Next.js (App Router, Server Components + Server Actions) ─�
 
 ## Tests
 
-| Command | What it covers |
-| --- | --- |
-| `npm test` | Vitest unit tests: streaks, timezones, validation, error mapping, the book list |
+| Command           | What it covers                                                                                                                                                    |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm test`        | Vitest unit tests: streaks, timezones, validation, error mapping, the book list                                                                                   |
 | `npm run test:db` | pgTAP tests against local Postgres: every RLS rule and RPC (private groups, bans, mutes, slow mode, blocking, removed content, account deletion, demo read-only…) |
-| `npm run e2e` | Playwright: sign-up → check-in → share → streak, plus the private-group invite flow with two users |
+| `npm run e2e`     | Playwright: sign-up → check-in → share → streak, plus the private-group invite flow with two users                                                                |
 
 ## Run it locally
 
@@ -73,13 +73,14 @@ update public.profiles set is_site_admin = true where username = 'your_username'
 
 1. **Supabase:** create a free project. Then:
    - Run `npx supabase login`, `npx supabase link --project-ref <ref>` and `npx supabase db push` to apply the migrations.
-   - In *Authentication → Sign In / Providers → Email*, turn off **Confirm email**. The built-in email sender is heavily rate-limited; add a free SMTP provider later if you want confirmations or magic links.
+   - In _Authentication → Sign In / Providers → Email_, turn off **Confirm email**. The built-in email sender is heavily rate-limited; add a free SMTP provider later if you want confirmations or magic links.
 2. **Vercel:** import the GitHub repo and set the environment variables:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
    - `DEMO_EMAIL` and `DEMO_PASSWORD`
 
    The secret key is **not** needed on Vercel.
+
 3. **Demo data:** put the hosted values (including `SUPABASE_SECRET_KEY`) in your local `.env.local`, then run `npx tsx scripts/seed-demo.ts`.
 4. **Site admin:** sign up on the live site, then run the SQL above in the Supabase dashboard.
 

@@ -21,7 +21,7 @@ function TopLinks({ path }: { path: string }) {
           key={href}
           href={href}
           aria-current={isActive(path, href) ? "page" : undefined}
-          className="rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink aria-[current=page]:bg-surface-2 aria-[current=page]:text-ink"
+          className="text-muted hover:text-ink aria-[current=page]:bg-surface-2 aria-[current=page]:text-ink rounded-full px-3 py-1.5 text-sm font-medium"
         >
           {label}
         </Link>
@@ -32,14 +32,14 @@ function TopLinks({ path }: { path: string }) {
 
 function BottomLinks({ path }: { path: string }) {
   return (
-    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg sm:hidden">
+    <nav aria-label="Main" className="border-line bg-bg fixed inset-x-0 bottom-0 z-20 border-t sm:hidden">
       <div className="mx-auto grid max-w-md grid-cols-3">
         {NAV.map(({ href, label, Icon }) => (
           <Link
             key={href}
             href={href}
             aria-current={isActive(path, href) ? "page" : undefined}
-            className="flex flex-col items-center gap-1 py-2.5 text-xs font-medium text-muted aria-[current=page]:text-accent"
+            className="text-muted aria-[current=page]:text-accent flex flex-col items-center gap-1 py-2.5 text-xs font-medium"
           >
             <Icon size={20} strokeWidth={2} aria-hidden />
             {label}

@@ -40,7 +40,10 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
   const [mine, found] = await Promise.all([getMyGroups(viewer.id), discover]);
   const mineIds = new Set(mine.map((g) => g.id));
   const { data: mineFull } = mine.length
-    ? await supabase.from("groups").select("id, name, slug, description, visibility, denomination").in("id", [...mineIds])
+    ? await supabase
+        .from("groups")
+        .select("id, name, slug, description, visibility, denomination")
+        .in("id", [...mineIds])
     : { data: [] };
 
   return (
@@ -48,9 +51,7 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
       <section>
         <h2 className="mb-3 text-lg font-bold">Your groups</h2>
         {mine.length === 0 ? (
-          <p className="text-muted">
-            You&apos;re not in any groups yet. Join one below or create your own.
-          </p>
+          <p className="text-muted">You&apos;re not in any groups yet. Join one below or create your own.</p>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
             {(mineFull ?? []).map((g) => (
@@ -66,7 +67,11 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
           <Input name="q" defaultValue={q} placeholder="Search by name" className="sm:flex-1" />
           <Select name="denomination" defaultValue={denomination} className="sm:w-60">
             <option value="">All denominations</option>
-            {DENOMINATIONS.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
+            {DENOMINATIONS.map((d) => (
+              <option key={d.value} value={d.value}>
+                {d.label}
+              </option>
+            ))}
           </Select>
           <Button variant="secondary">Search</Button>
         </form>
@@ -75,7 +80,12 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
             {(found.data ?? []).map((g) => (
-              <GroupCard key={g.id} group={g} members={g.group_members?.[0]?.count ?? 0} role={mineIds.has(g.id) ? "joined" : undefined} />
+              <GroupCard
+                key={g.id}
+                group={g}
+                members={g.group_members?.[0]?.count ?? 0}
+                role={mineIds.has(g.id) ? "joined" : undefined}
+              />
             ))}
           </div>
         )}

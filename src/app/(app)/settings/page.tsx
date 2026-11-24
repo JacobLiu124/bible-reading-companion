@@ -38,18 +38,20 @@ async function AccountSettings() {
   return (
     <>
       {readOnly && (
-        <p className="rounded-2xl bg-accent-soft p-4 text-sm">
+        <p className="bg-accent-soft rounded-2xl p-4 text-sm">
           You&apos;re using the shared demo account, so settings are read-only.
         </p>
       )}
       <Card>
         <h2 className="mb-1 text-lg font-bold">Profile</h2>
-        <p className="mb-4 text-sm text-muted">@{profile.username}</p>
+        <p className="text-muted mb-4 text-sm">@{profile.username}</p>
         <ProfileForm
           readOnly={readOnly}
           initial={{
-            displayName: profile.display_name, denomination: profile.denomination,
-            timezone: profile.timezone, weeklyGoal: profile.weekly_goal,
+            displayName: profile.display_name,
+            denomination: profile.denomination,
+            timezone: profile.timezone,
+            weeklyGoal: profile.weekly_goal,
           }}
         />
       </Card>
@@ -57,13 +59,21 @@ async function AccountSettings() {
       <Card>
         <h2 className="mb-3 text-lg font-bold">Blocked people</h2>
         {(blocks ?? []).length === 0 ? (
-          <p className="text-sm text-muted">You haven&apos;t blocked anyone.</p>
+          <p className="text-muted text-sm">You haven&apos;t blocked anyone.</p>
         ) : (
-          <ul className="divide-y divide-line">
+          <ul className="divide-line divide-y">
             {(blocks ?? []).map((b) => (
               <li key={b.blocked_id} className="flex items-center justify-between py-2.5">
-                <span>{b.profiles?.display_name} <span className="text-muted">@{b.profiles?.username}</span></span>
-                <ActionButton variant="ghost" action={unblockUserAction.bind(null, b.blocked_id)} disabled={readOnly}>Unblock</ActionButton>
+                <span>
+                  {b.profiles?.display_name} <span className="text-muted">@{b.profiles?.username}</span>
+                </span>
+                <ActionButton
+                  variant="ghost"
+                  action={unblockUserAction.bind(null, b.blocked_id)}
+                  disabled={readOnly}
+                >
+                  Unblock
+                </ActionButton>
               </li>
             ))}
           </ul>
@@ -77,10 +87,10 @@ async function AccountSettings() {
       </Card>
 
       <Card className="border-danger/40">
-        <h2 className="mb-1 text-lg font-bold text-danger">Delete account</h2>
-        <p className="mb-4 text-sm text-muted">
-          Permanently deletes your profile, check-ins, posts and comments. Groups you own are handed to another
-          member (or deleted if you&apos;re the only one). This can&apos;t be undone.
+        <h2 className="text-danger mb-1 text-lg font-bold">Delete account</h2>
+        <p className="text-muted mb-4 text-sm">
+          Permanently deletes your profile, check-ins, posts and comments. Groups you own are handed to
+          another member (or deleted if you&apos;re the only one). This can&apos;t be undone.
         </p>
         <DeleteAccountForm username={profile.username} readOnly={readOnly} />
       </Card>

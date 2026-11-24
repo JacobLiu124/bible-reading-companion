@@ -13,7 +13,11 @@ export async function createGroupAction(_: ActionResult, form: FormData): Promis
   const { name, description, rules, visibility, denomination } = parsed.data;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("create_group", {
-    name, description, rules: rules || DEFAULT_GROUP_RULES, visibility, denomination: denomination ?? "",
+    name,
+    description,
+    rules: rules || DEFAULT_GROUP_RULES,
+    visibility,
+    denomination: denomination ?? "",
   });
   if (error || !data) return { error: friendlyError(error) };
   redirect(`/groups/${data.slug}`);
@@ -25,7 +29,11 @@ export async function updateGroupAction(_: ActionResult, form: FormData): Promis
   const { name, description, rules, denomination } = parsed.data;
   return runAction((sb) =>
     sb.rpc("update_group", {
-      gid: String(form.get("groupId")), name, description, rules, denomination: denomination ?? "",
+      gid: String(form.get("groupId")),
+      name,
+      description,
+      rules,
+      denomination: denomination ?? "",
     }),
   );
 }
@@ -46,7 +54,11 @@ export async function revokeInviteAction(code: string): Promise<ActionResult> {
   return runAction((sb) => sb.rpc("revoke_invite", { invite_code: code }));
 }
 
-export async function setRoleAction(groupId: string, userId: string, role: "admin" | "member"): Promise<ActionResult> {
+export async function setRoleAction(
+  groupId: string,
+  userId: string,
+  role: "admin" | "member",
+): Promise<ActionResult> {
   return runAction((sb) => sb.rpc("set_member_role", { gid: groupId, uid: userId, role }));
 }
 

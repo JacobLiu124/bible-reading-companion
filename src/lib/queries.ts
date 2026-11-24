@@ -16,7 +16,9 @@ export async function requireViewer(): Promise<Viewer> {
 }
 
 /** Groups the viewer is an active (not banned) member of. */
-export async function getMyGroups(viewerId: string): Promise<(GroupOption & { slug: string; role: string })[]> {
+export async function getMyGroups(
+  viewerId: string,
+): Promise<(GroupOption & { slug: string; role: string })[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("group_members")

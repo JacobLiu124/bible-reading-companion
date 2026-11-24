@@ -9,7 +9,9 @@ export function JoinForm({ code, readOnly }: { code: string; readOnly: boolean }
   return (
     <form action={action} className="space-y-3">
       <input type="hidden" name="code" value={code} />
-      <Button className="w-full" disabled={pending || readOnly}>{pending ? "Joining…" : "Join group"}</Button>
+      <Button className="w-full" disabled={pending || readOnly}>
+        {pending ? "Joining…" : "Join group"}
+      </Button>
       <FormError message={state?.error} />
     </form>
   );

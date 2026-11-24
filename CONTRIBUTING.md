@@ -36,15 +36,15 @@ npm run dev                    # http://localhost:3000
 
 CI runs all of these on every pull request. Run them before pushing:
 
-| Command                | What it checks                                         |
-| ---------------------- | ------------------------------------------------------ |
-| `npm run format:check` | Prettier formatting (`npm run format` fixes it)        |
-| `npm run lint`         | ESLint                                                 |
-| `npm run typecheck`    | TypeScript                                             |
-| `npm test`             | Unit tests (Vitest)                                    |
-| `npm run test:db`      | Database rules and functions (pgTAP, needs Supabase)   |
+| Command                | What it checks                                          |
+| ---------------------- | ------------------------------------------------------- |
+| `npm run format:check` | Prettier formatting (`npm run format` fixes it)         |
+| `npm run lint`         | ESLint                                                  |
+| `npm run typecheck`    | TypeScript                                              |
+| `npm test`             | Unit tests (Vitest)                                     |
+| `npm run test:db`      | Database rules and functions (pgTAP, needs Supabase)    |
 | `npm run e2e`          | Browser tests (Playwright, needs Supabase + dev server) |
-| `npm run build`        | Production build                                       |
+| `npm run build`        | Production build                                        |
 
 ## Database changes
 

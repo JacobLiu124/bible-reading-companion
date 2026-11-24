@@ -19,7 +19,9 @@ const secret = process.env.SUPABASE_SECRET_KEY;
 const demoEmail = process.env.DEMO_EMAIL;
 const demoPassword = process.env.DEMO_PASSWORD;
 if (!url || !secret || !demoEmail || !demoPassword) {
-  console.error("Set NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SECRET_KEY, DEMO_EMAIL and DEMO_PASSWORD in .env.local");
+  console.error(
+    "Set NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SECRET_KEY, DEMO_EMAIL and DEMO_PASSWORD in .env.local",
+  );
   process.exit(1);
 }
 
@@ -43,7 +45,9 @@ async function ensureUser(email: string, password: string, username: string, dis
   if (existing) return existing.id;
   const created = await must(
     db.auth.admin.createUser({
-      email, password, email_confirm: true,
+      email,
+      password,
+      email_confirm: true,
       user_metadata: { username, display_name: displayName, timezone: "UTC" },
     }),
     `create ${username}`,
@@ -60,7 +64,13 @@ async function main() {
   const people = [demo, ruth, sam, grace];
 
   await must(db.from("profiles").update({ is_demo: true, weekly_goal: 3 }).eq("id", demo), "flag demo");
-  await must(db.from("profiles").update({ created_at: ago(24 * 40) }).in("id", people), "backdate profiles");
+  await must(
+    db
+      .from("profiles")
+      .update({ created_at: ago(24 * 40) })
+      .in("id", people),
+    "backdate profiles",
+  );
   await must(db.from("profiles").update({ denomination: "baptist" }).eq("id", ruth), "denom");
   await must(db.from("profiles").update({ denomination: "anglican" }).eq("id", sam), "denom");
 
@@ -71,11 +81,19 @@ async function main() {
 
   // A public group everyone is in.
   const group = await must(
-    db.from("groups").insert({
-      name: "Demo Fellowship", slug: "demo-fellowship", visibility: "public", denomination: "non_denominational",
-      description: "A sample group so you can see how OneJoy works.",
-      rules: "Be kind. Assume the best. Stay on topic.", owner_id: ruth,
-    }).select().single(),
+    db
+      .from("groups")
+      .insert({
+        name: "Demo Fellowship",
+        slug: "demo-fellowship",
+        visibility: "public",
+        denomination: "non_denominational",
+        description: "A sample group so you can see how OneJoy works.",
+        rules: "Be kind. Assume the best. Stay on topic.",
+        owner_id: ruth,
+      })
+      .select()
+      .single(),
     "create group",
   );
   await must(
@@ -96,21 +114,83 @@ async function main() {
   await must(db.from("check_ins").upsert(checkIns), "check-ins");
 
   // Reading posts for today and yesterday, in the group and the global thread.
-  const schedule = await must(db.from("reading_schedule").select("day, label").in("day", [day(0), day(-1)]), "schedule");
+  const schedule = await must(
+    db
+      .from("reading_schedule")
+      .select("day, label")
+      .in("day", [day(0), day(-1)]),
+    "schedule",
+  );
   const label = (d: string) => schedule.find((s) => s.day === d)?.label ?? "John 1";
-  const reading = (author: string, d: string, gid: string | null, body: string, verseRef: string | null, verseText: string | null, hours: number) => ({
-    kind: "reading", author_id: author, group_id: gid, reading_date: d, reference: label(d),
-    body, verse_ref: verseRef, verse_text: verseText, created_at: ago(hours),
+  const reading = (
+    author: string,
+    d: string,
+    gid: string | null,
+    body: string,
+    verseRef: string | null,
+    verseText: string | null,
+    hours: number,
+  ) => ({
+    kind: "reading",
+    author_id: author,
+    group_id: gid,
+    reading_date: d,
+    reference: label(d),
+    body,
+    verse_ref: verseRef,
+    verse_text: verseText,
+    created_at: ago(hours),
   });
   const posts = await must(
-    db.from("posts").insert([
-      reading(ruth, day(0), null, "I read this slowly over breakfast. What struck me is how personal it is — not a distant God but one who comes close.", null, null, 2),
-      reading(sam, day(0), null, "Underlined this one in my Bible years ago and it still lands.", `${label(day(0))}:5`, "The light shineth in darkness; and the darkness comprehended it not.", 4),
-      reading(grace, day(0), group.id, "Short one today but I keep coming back to it.", null, null, 3),
-      reading(sam, day(-1), null, "Yesterday's chapter made me want to read the whole book again.", null, null, 26),
-      { kind: "general", author_id: grace, group_id: group.id, title: "Prayer request", body: "Starting a new job on Monday and feeling nervous. Would appreciate your prayers!", created_at: ago(20) },
-      { kind: "general", author_id: ruth, group_id: group.id, title: "Welcome!", body: "Welcome to the demo group 👋 This is where your church or friends would share what stood out each day.", created_at: ago(24 * 6) },
-    ]).select("id, author_id, title"),
+    db
+      .from("posts")
+      .insert([
+        reading(
+          ruth,
+          day(0),
+          null,
+          "I read this slowly over breakfast. What struck me is how personal it is — not a distant God but one who comes close.",
+          null,
+          null,
+          2,
+        ),
+        reading(
+          sam,
+          day(0),
+          null,
+          "Underlined this one in my Bible years ago and it still lands.",
+          `${label(day(0))}:5`,
+          "The light shineth in darkness; and the darkness comprehended it not.",
+          4,
+        ),
+        reading(grace, day(0), group.id, "Short one today but I keep coming back to it.", null, null, 3),
+        reading(
+          sam,
+          day(-1),
+          null,
+          "Yesterday's chapter made me want to read the whole book again.",
+          null,
+          null,
+          26,
+        ),
+        {
+          kind: "general",
+          author_id: grace,
+          group_id: group.id,
+          title: "Prayer request",
+          body: "Starting a new job on Monday and feeling nervous. Would appreciate your prayers!",
+          created_at: ago(20),
+        },
+        {
+          kind: "general",
+          author_id: ruth,
+          group_id: group.id,
+          title: "Welcome!",
+          body: "Welcome to the demo group 👋 This is where your church or friends would share what stood out each day.",
+          created_at: ago(24 * 6),
+        },
+      ])
+      .select("id, author_id, title"),
     "posts",
   );
 
@@ -119,17 +199,29 @@ async function main() {
   await must(
     db.from("comments").insert([
       { post_id: first, author_id: sam, body: "Same here. Verse 14 especially.", created_at: ago(1.5) },
-      { post_id: first, author_id: grace, body: "Love that — \"comes close\" is a good way to put it.", created_at: ago(1) },
-      { post_id: byTitle("Prayer request"), author_id: ruth, body: "Praying for you, Grace! 🙏", created_at: ago(18) },
+      {
+        post_id: first,
+        author_id: grace,
+        body: 'Love that — "comes close" is a good way to put it.',
+        created_at: ago(1),
+      },
+      {
+        post_id: byTitle("Prayer request"),
+        author_id: ruth,
+        body: "Praying for you, Grace! 🙏",
+        created_at: ago(18),
+      },
       { post_id: byTitle("Prayer request"), author_id: sam, body: "You'll do great.", created_at: ago(17) },
     ]),
     "comments",
   );
   await must(
     db.from("reactions").insert([
-      { post_id: first, user_id: sam }, { post_id: first, user_id: grace },
+      { post_id: first, user_id: sam },
+      { post_id: first, user_id: grace },
       { post_id: posts[1].id, user_id: ruth },
-      { post_id: byTitle("Prayer request"), user_id: ruth }, { post_id: byTitle("Prayer request"), user_id: sam },
+      { post_id: byTitle("Prayer request"), user_id: ruth },
+      { post_id: byTitle("Prayer request"), user_id: sam },
     ]),
     "reactions",
   );

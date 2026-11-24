@@ -32,8 +32,13 @@ async function Archive({ params }: { params: Promise<{ date: string }> }) {
   const supabase = await createClient();
   const [schedule, posts] = await Promise.all([
     supabase.from("reading_schedule").select("label").eq("day", date).maybeSingle(),
-    supabase.from("feed_posts").select("*").is("group_id", null).eq("reading_date", date)
-      .order("created_at", { ascending: false }).limit(200),
+    supabase
+      .from("feed_posts")
+      .select("*")
+      .is("group_id", null)
+      .eq("reading_date", date)
+      .order("created_at", { ascending: false })
+      .limit(200),
   ]);
   const next = addDays(date, 1);
   const list = posts.data ?? [];
@@ -44,17 +49,25 @@ async function Archive({ params }: { params: Promise<{ date: string }> }) {
         {schedule.data?.label ?? "Global thread"}
       </PageTitle>
       <div className="mb-2 flex justify-between text-sm">
-        <Link href={`/global/${addDays(date, -1)}`} className={navLink}><ChevronLeft size={16} aria-hidden /> Previous day</Link>
+        <Link href={`/global/${addDays(date, -1)}`} className={navLink}>
+          <ChevronLeft size={16} aria-hidden /> Previous day
+        </Link>
         <Link href={next >= today ? "/today" : `/global/${next}`} className={navLink}>
           {next >= today ? "Today" : "Next day"} <ChevronRight size={16} aria-hidden />
         </Link>
       </div>
       {list.length === 0 ? (
-        <p className="py-6 text-muted">No one shared that day.</p>
+        <p className="text-muted py-6">No one shared that day.</p>
       ) : (
         <PostList>
           {list.map((p) => (
-            <PostCard key={p.id} post={p} viewerId={viewer.id} timeZone={tz} readOnly={viewer.profile.is_demo} />
+            <PostCard
+              key={p.id}
+              post={p}
+              viewerId={viewer.id}
+              timeZone={tz}
+              readOnly={viewer.profile.is_demo}
+            />
           ))}
         </PostList>
       )}

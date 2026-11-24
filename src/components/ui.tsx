@@ -13,17 +13,25 @@ const variants: Record<Variant, string> = {
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
 
-export function Button({ variant = "primary", className, ...p }: ComponentProps<"button"> & { variant?: Variant }) {
+export function Button({
+  variant = "primary",
+  className,
+  ...p
+}: ComponentProps<"button"> & { variant?: Variant }) {
   return <button className={cx(base, variants[variant], className)} {...p} />;
 }
 
-export function LinkButton({ variant = "primary", className, ...p }: ComponentProps<typeof Link> & { variant?: Variant }) {
+export function LinkButton({
+  variant = "primary",
+  className,
+  ...p
+}: ComponentProps<typeof Link> & { variant?: Variant }) {
   return <Link className={cx(base, variants[variant], className)} {...p} />;
 }
 
 /** A quiet tinted panel for forms and grouped settings. Feeds and lists don't use it. */
 export function Card({ className, ...p }: ComponentProps<"div">) {
-  return <div className={cx("rounded-2xl bg-surface-2 p-5", className)} {...p} />;
+  return <div className={cx("bg-surface-2 rounded-2xl p-5", className)} {...p} />;
 }
 
 const field =
@@ -44,25 +52,37 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
     <label className="block space-y-1.5">
       <span className="text-sm font-semibold">{label}</span>
       {children}
-      {hint && <span className="block text-xs text-muted">{hint}</span>}
+      {hint && <span className="text-muted block text-xs">{hint}</span>}
     </label>
   );
 }
 
 export function FormError({ message }: { message?: string | null }) {
   if (!message) return null;
-  return <p role="alert" className="text-sm font-medium text-danger">{message}</p>;
+  return (
+    <p role="alert" className="text-danger text-sm font-medium">
+      {message}
+    </p>
+  );
 }
 
 export function Badge({ className, ...p }: ComponentProps<"span">) {
-  return <span className={cx("inline-flex items-center gap-1 rounded-full bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-muted", className)} {...p} />;
+  return (
+    <span
+      className={cx(
+        "bg-surface-2 text-muted inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+        className,
+      )}
+      {...p}
+    />
+  );
 }
 
 export function PageTitle({ children, sub }: { children: ReactNode; sub?: ReactNode }) {
   return (
     <div className="mb-6">
       <h1 className="text-3xl font-bold tracking-tight">{children}</h1>
-      {sub && <p className="mt-1 text-muted">{sub}</p>}
+      {sub && <p className="text-muted mt-1">{sub}</p>}
     </div>
   );
 }
@@ -77,7 +97,7 @@ export function SectionTitle({ children, action }: { children: ReactNode; action
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cx("animate-pulse rounded-2xl bg-surface-2", className)} />;
+  return <div className={cx("bg-surface-2 animate-pulse rounded-2xl", className)} />;
 }
 
 export { cx };

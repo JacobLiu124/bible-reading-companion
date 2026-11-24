@@ -6,7 +6,8 @@ const figtree = Figtree({ variable: "--font-figtree", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: "OneJoy — read the Bible together", template: "%s · OneJoy" },
-  description: "A daily Bible reading companion: read today's chapter in your own Bible, check in, and talk about it with friends.",
+  description:
+    "A daily Bible reading companion: read today's chapter in your own Bible, check in, and talk about it with friends.",
 };
 
 export const viewport: Viewport = {
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

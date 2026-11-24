@@ -28,7 +28,7 @@ export function SignInForm() {
       <Button className="w-full" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </Button>
-      <p className="text-center text-sm text-muted">
+      <p className="text-muted text-center text-sm">
         New here?{" "}
         <Link className="text-accent underline" href="/sign-up">
           Create an account
@@ -75,7 +75,7 @@ export function SignUpForm() {
       <Button className="w-full" disabled={pending}>
         {pending ? "Creating account…" : "Create account"}
       </Button>
-      <p className="text-center text-sm text-muted">
+      <p className="text-muted text-center text-sm">
         Already have an account?{" "}
         <Link className="text-accent underline" href="/sign-in">
           Sign in

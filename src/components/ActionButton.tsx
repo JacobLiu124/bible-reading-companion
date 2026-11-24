@@ -7,7 +7,12 @@ type Variant = "primary" | "secondary" | "ghost" | "danger";
 
 /** A button that runs a Server Action, with optional confirm and inline error. */
 export function ActionButton({
-  action, children, confirm, variant = "secondary", disabled, className,
+  action,
+  children,
+  confirm,
+  variant = "secondary",
+  disabled,
+  className,
 }: {
   action: () => Promise<{ error?: string } | undefined>;
   children: React.ReactNode;
@@ -32,7 +37,7 @@ export function ActionButton({
       >
         {pending ? "…" : children}
       </Button>
-      {error && <span className="text-xs text-danger">{error}</span>}
+      {error && <span className="text-danger text-xs">{error}</span>}
     </span>
   );
 }

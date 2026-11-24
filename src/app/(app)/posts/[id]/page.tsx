@@ -35,7 +35,13 @@ async function Post({ params }: { params: Params }) {
       ? supabase.from("groups").select("rules, slug, name").eq("id", post.group_id).maybeSingle()
       : Promise.resolve({ data: null }),
     post.group_id
-      ? supabase.from("group_members").select("role").eq("group_id", post.group_id).eq("user_id", viewer.id).eq("banned", false).maybeSingle()
+      ? supabase
+          .from("group_members")
+          .select("role")
+          .eq("group_id", post.group_id)
+          .eq("user_id", viewer.id)
+          .eq("banned", false)
+          .maybeSingle()
       : Promise.resolve({ data: { role: "member" } }),
   ]);
 
@@ -55,7 +61,14 @@ async function Post({ params }: { params: Params }) {
   return (
     <div className="space-y-6">
       <BackLink href={back.href}>{back.label}</BackLink>
-      <PostCard post={post} viewerId={viewer.id} timeZone={viewer.profile.timezone} readOnly={readOnly || !membership.data} linkToPost={false} showGroup />
+      <PostCard
+        post={post}
+        viewerId={viewer.id}
+        timeZone={viewer.profile.timezone}
+        readOnly={readOnly || !membership.data}
+        linkToPost={false}
+        showGroup
+      />
       <section className="space-y-4">
         <h2 className="text-lg font-bold">Replies</h2>
         <CommentList

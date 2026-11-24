@@ -8,7 +8,8 @@ export async function setScheduleDayAction(_: ActionResult, form: FormData): Pro
   const book = String(form.get("book") ?? "");
   const chapter = Number(form.get("chapter"));
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return { error: "Pick a date." };
-  if (!isValidChapter(book, chapter)) return { error: `${book || "That book"} doesn't have chapter ${chapter || "?"}.` };
+  if (!isValidChapter(book, chapter))
+    return { error: `${book || "That book"} doesn't have chapter ${chapter || "?"}.` };
   return runAction((sb) =>
     sb.from("reading_schedule").upsert({ day, book, chapter, label: chapterLabel(book, chapter) }),
   );
