@@ -6,7 +6,7 @@ Thanks for helping. This guide covers how work is planned, how to run the projec
 
 - All work starts as a **GitHub issue** (use the bug or feature template) and lives on the **OneJoy project board**.
 - Large pieces of work are split into **sub-issues**, so each pull request stays small. Use "blocked by" links when one issue depends on another.
-- Issues carry a **type** label (`type: bug`, `type: feature`, `type: chore`, `type: docs`), an **area** label, and a **milestone** for the release they belong to.
+- Issues carry a **type** label (`bug`, `feature`, `chore`, `documentation`), an **area** label (`area: database`, `area: ui`, …), and a **milestone** for the release they belong to.
 - Board status is the single source of truth for progress. Don't track status anywhere else.
 
 ## Branches and commits
