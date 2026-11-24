@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { type ActionResult, runAction } from "@/lib/actions";
 import { friendlyError } from "@/lib/errors";
+import { DEFAULT_GROUP_RULES } from "@/lib/globalRules";
 import { createClient } from "@/lib/supabase/server";
 import { firstIssue, groupSchema } from "@/lib/validation";
 
@@ -12,7 +13,7 @@ export async function createGroupAction(_: ActionResult, form: FormData): Promis
   const { name, description, rules, visibility, denomination } = parsed.data;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("create_group", {
-    name, description, rules, visibility, denomination: denomination ?? "",
+    name, description, rules: rules || DEFAULT_GROUP_RULES, visibility, denomination: denomination ?? "",
   });
   if (error || !data) return { error: friendlyError(error) };
   redirect(`/groups/${data.slug}`);

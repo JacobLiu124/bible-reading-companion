@@ -26,7 +26,7 @@ export const readingPostSchema = z
     verseText: optionalText(500),
   })
   .refine((v) => v.body || v.verseText, {
-    message: "Write a reflection or add a verse that stood out.",
+    message: "Write a reflection or add a scripture that stood out.",
   });
 
 export const generalPostSchema = z.object({

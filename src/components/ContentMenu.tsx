@@ -109,8 +109,8 @@ function EditDialog({ target, onClose }: { target: MenuTarget; onClose: () => vo
         <Textarea name="body" defaultValue={target.body ?? ""} maxLength={1000} />
         {target.type === "post" && target.kind === "reading" && (
           <>
-            <Input name="verseRef" defaultValue={target.verseRef ?? ""} maxLength={60} placeholder="Verse reference" />
-            <Input name="verseText" defaultValue={target.verseText ?? ""} maxLength={500} placeholder="Verse text" />
+            <Input name="verseRef" defaultValue={target.verseRef ?? ""} maxLength={60} placeholder="Scripture (Psalm 23:4)" />
+            <Input name="verseText" defaultValue={target.verseText ?? ""} maxLength={500} placeholder="Scripture text" />
           </>
         )}
         <FormError message={state?.error} />

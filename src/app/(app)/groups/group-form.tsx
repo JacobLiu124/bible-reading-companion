@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { Button, Field, FormError, Input, Select, Textarea } from "@/components/ui";
 import { DENOMINATIONS } from "@/lib/denominations";
+import { DEFAULT_GROUP_RULES } from "@/lib/globalRules";
 import { createGroupAction, updateGroupAction } from "./actions";
 
 type Initial = { id: string; name: string; description: string; rules: string; denomination: string | null };
@@ -24,8 +25,20 @@ export function GroupForm({ initial, readOnly }: { initial?: Initial; readOnly?:
           {DENOMINATIONS.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
         </Select>
       </Field>
-      <Field label="Group rules" hint="Shown at the top of the group and above every comment box.">
-        <Textarea name="rules" defaultValue={initial?.rules ?? "Be kind. Assume the best. Stay on topic."} maxLength={2000} />
+      <Field
+        label="Group rules"
+        hint={
+          initial
+            ? "Shown at the top of the group and above every reply box."
+            : "Shown at the top of the group and above every reply box. Leave it empty to use the example."
+        }
+      >
+        <Textarea
+          name="rules"
+          defaultValue={initial?.rules}
+          placeholder={DEFAULT_GROUP_RULES}
+          maxLength={2000}
+        />
       </Field>
       {!initial && (
         <fieldset className="space-y-2">

@@ -5,7 +5,7 @@ import { CommentForm } from "@/components/CommentForm";
 import { CommentList } from "@/components/CommentList";
 import { PostCard } from "@/components/PostCard";
 import { Skeleton } from "@/components/ui";
-import { GLOBAL_RULES } from "@/lib/globalRules";
+import { GLOBAL_RULES, GLOBAL_RULES_VERSE } from "@/lib/globalRules";
 import { requireViewer } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/server";
 
@@ -65,7 +65,12 @@ async function Post({ params }: { params: Params }) {
           readOnly={readOnly}
           groupId={post.group_id}
         />
-        <CommentForm postId={post.id} rules={post.group_id ? (group.data?.rules ?? "") : GLOBAL_RULES} disabledReason={disabledReason} />
+        <CommentForm
+          postId={post.id}
+          rules={post.group_id ? (group.data?.rules ?? "") : GLOBAL_RULES}
+          verse={post.group_id ? undefined : GLOBAL_RULES_VERSE}
+          disabledReason={disabledReason}
+        />
       </section>
     </div>
   );

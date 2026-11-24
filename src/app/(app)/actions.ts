@@ -17,8 +17,10 @@ export async function createReadingPostAction(_: ActionResult, form: FormData): 
     verseText: form.get("verseText") ?? undefined,
   });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const groupIds = form.getAll("groupIds").map(String);
-  const toGlobal = form.get("toGlobal") === "on";
+  // One destination per share: "global" or a group id.
+  const destination = String(form.get("destination") ?? "global");
+  const toGlobal = destination === "global";
+  const groupIds = toGlobal ? [] : [destination];
   const { body, verseRef, verseText } = parsed.data;
   return runAction((sb) =>
     sb.rpc("create_reading_post", {
