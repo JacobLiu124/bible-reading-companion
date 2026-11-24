@@ -1,5 +1,6 @@
 "use client";
 
+import { Ellipsis } from "lucide-react";
 import { useActionState, useEffect, useState, useTransition } from "react";
 import {
   blockUserAction, deleteCommentAction, deletePostAction, editCommentAction, editPostAction, reportAction,
@@ -66,8 +67,8 @@ export function ContentMenu({
   return (
     <>
       <details className="relative [&_summary::-webkit-details-marker]:hidden">
-        <summary className="cursor-pointer list-none rounded-full px-2 py-1 text-muted hover:bg-surface-2" aria-label="More actions">
-          ⋯
+        <summary className="flex cursor-pointer list-none items-center rounded-full p-1.5 text-muted hover:bg-surface-2 hover:text-ink" aria-label="More actions">
+          <Ellipsis size={18} aria-hidden />
         </summary>
         <ul className="absolute right-0 z-10 mt-1 w-56 overflow-hidden rounded-xl border border-line bg-surface py-1 shadow-lg">
           {items.map((it) => (

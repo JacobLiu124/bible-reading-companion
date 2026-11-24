@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { BackLink } from "@/components/BackLink";
 import { CommentForm } from "@/components/CommentForm";
 import { CommentList } from "@/components/CommentList";
 import { PostCard } from "@/components/PostCard";
@@ -54,10 +54,10 @@ async function Post({ params }: { params: Params }) {
 
   return (
     <div className="space-y-6">
-      <Link href={back.href} className="text-sm text-accent">← {back.label}</Link>
+      <BackLink href={back.href}>{back.label}</BackLink>
       <PostCard post={post} viewerId={viewer.id} timeZone={viewer.profile.timezone} readOnly={readOnly || !membership.data} linkToPost={false} showGroup />
       <section className="space-y-4">
-        <h2 className="font-serif text-xl font-semibold">Comments</h2>
+        <h2 className="text-lg font-bold">Replies</h2>
         <CommentList
           comments={comments.data ?? []}
           viewerId={viewer.id}

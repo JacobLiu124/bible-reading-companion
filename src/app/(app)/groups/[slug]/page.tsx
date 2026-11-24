@@ -1,8 +1,10 @@
+import { Globe, Lock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ActionButton } from "@/components/ActionButton";
-import { PostCard } from "@/components/PostCard";
+import { BackLink } from "@/components/BackLink";
+import { PostCard, PostList } from "@/components/PostCard";
 import { GeneralComposer } from "@/components/PostComposer";
 import { Badge, Card, Skeleton } from "@/components/ui";
 import { denominationLabel } from "@/lib/denominations";
@@ -45,12 +47,12 @@ async function Group({ params }: { params: Params }) {
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/groups" className="text-sm text-accent">← Groups</Link>
+        <BackLink href="/groups">Groups</BackLink>
         <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="font-serif text-3xl font-semibold tracking-tight">{group.name}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{group.name}</h1>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Badge>{group.visibility === "private" ? "🔒 Private" : "🌐 Public"}</Badge>
+              <Badge>{group.visibility === "private" ? <><Lock size={12} aria-hidden /> Private</> : <><Globe size={12} aria-hidden /> Public</>}</Badge>
               {denom && <Badge>{denom}</Badge>}
               <Badge>{memberCount.count ?? 0} members</Badge>
             </div>
@@ -71,15 +73,15 @@ async function Group({ params }: { params: Params }) {
       </div>
 
       {group.rules && (
-        <Card className="bg-surface-2">
-          <p className="text-sm font-medium">Group rules</p>
+        <div className="border-l-2 border-line pl-4">
+          <p className="text-sm font-bold">Group rules</p>
           <p className="mt-1 whitespace-pre-wrap text-sm text-muted">{group.rules}</p>
-        </Card>
+        </div>
       )}
 
       {isMember && !mutedUntil && (
         <Card>
-          <h2 className="mb-3 font-serif text-lg font-semibold">Post to the group</h2>
+          <h2 className="mb-3 text-lg font-bold">Post to the group</h2>
           <GeneralComposer groupId={group.id} readOnly={readOnly} />
           <p className="mt-3 text-xs text-muted">Reading reflections are shared from the Today page after you check in.</p>
         </Card>
@@ -92,11 +94,13 @@ async function Group({ params }: { params: Params }) {
 
       <section className="space-y-3">
         {(posts.data ?? []).length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-line p-6 text-center text-muted">No posts yet.</p>
+          <p className="py-6 text-muted">No posts yet. Share a prayer request or something from today&apos;s reading.</p>
         ) : (
-          (posts.data ?? []).map((p) => (
-            <PostCard key={p.id} post={p} viewerId={viewer.id} timeZone={viewer.profile.timezone} readOnly={readOnly || !isMember} />
-          ))
+          <PostList>
+            {(posts.data ?? []).map((p) => (
+              <PostCard key={p.id} post={p} viewerId={viewer.id} timeZone={viewer.profile.timezone} readOnly={readOnly || !isMember} showReference />
+            ))}
+          </PostList>
         )}
       </section>
     </div>

@@ -15,7 +15,7 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <PageTitle>Settings</PageTitle>
       <Card>
-        <h2 className="mb-3 font-serif text-lg font-semibold">Appearance</h2>
+        <h2 className="mb-3 text-lg font-bold">Appearance</h2>
         <ThemeToggle />
       </Card>
       <Suspense fallback={<Skeleton className="h-96" />}>
@@ -43,7 +43,7 @@ async function AccountSettings() {
         </p>
       )}
       <Card>
-        <h2 className="mb-1 font-serif text-lg font-semibold">Profile</h2>
+        <h2 className="mb-1 text-lg font-bold">Profile</h2>
         <p className="mb-4 text-sm text-muted">@{profile.username}</p>
         <ProfileForm
           readOnly={readOnly}
@@ -55,7 +55,7 @@ async function AccountSettings() {
       </Card>
 
       <Card>
-        <h2 className="mb-3 font-serif text-lg font-semibold">Blocked people</h2>
+        <h2 className="mb-3 text-lg font-bold">Blocked people</h2>
         {(blocks ?? []).length === 0 ? (
           <p className="text-sm text-muted">You haven&apos;t blocked anyone.</p>
         ) : (
@@ -77,7 +77,7 @@ async function AccountSettings() {
       </Card>
 
       <Card className="border-danger/40">
-        <h2 className="mb-1 font-serif text-lg font-semibold text-danger">Delete account</h2>
+        <h2 className="mb-1 text-lg font-bold text-danger">Delete account</h2>
         <p className="mb-4 text-sm text-muted">
           Permanently deletes your profile, check-ins, posts and comments. Groups you own are handed to another
           member (or deleted if you&apos;re the only one). This can&apos;t be undone.

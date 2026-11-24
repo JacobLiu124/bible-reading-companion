@@ -89,7 +89,7 @@ export function DemoButton({ className }: { className?: string }) {
   const [state, action, pending] = useActionState(signInDemo, undefined);
   return (
     <form action={action} className={className}>
-      <Button variant="secondary" className="w-full px-6 py-3" disabled={pending}>
+      <Button variant="secondary" className="w-full px-6 py-3 text-base" disabled={pending}>
         {pending ? "Opening demo…" : "Try the demo"}
       </Button>
       <FormError message={state?.error} />

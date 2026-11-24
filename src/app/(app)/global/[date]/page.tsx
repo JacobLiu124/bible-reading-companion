@@ -1,7 +1,8 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { PostCard } from "@/components/PostCard";
+import { PostCard, PostList } from "@/components/PostCard";
 import { PageTitle, Skeleton } from "@/components/ui";
 import { addDays, localToday } from "@/lib/dates";
 import { formatDay } from "@/lib/format";
@@ -18,6 +19,8 @@ export default function GlobalArchivePage({ params }: { params: Promise<{ date: 
   );
 }
 
+const navLink = "inline-flex items-center gap-0.5 font-medium text-accent hover:underline";
+
 async function Archive({ params }: { params: Promise<{ date: string }> }) {
   const { date } = await params;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date))) notFound();
@@ -33,25 +36,27 @@ async function Archive({ params }: { params: Promise<{ date: string }> }) {
       .order("created_at", { ascending: false }).limit(200),
   ]);
   const next = addDays(date, 1);
+  const list = posts.data ?? [];
 
   return (
     <div>
-      <PageTitle sub={formatDay(date)}>🌍 {schedule.data?.label ?? "Global thread"}</PageTitle>
-      <div className="mb-4 flex justify-between text-sm">
-        <Link href={`/global/${addDays(date, -1)}`} className="text-accent">← Previous day</Link>
-        <Link href={next >= today ? "/today" : `/global/${next}`} className="text-accent">
-          {next >= today ? "Today →" : "Next day →"}
+      <PageTitle sub={`${formatDay(date)}. New posts are closed, but you can still reply.`}>
+        {schedule.data?.label ?? "Global thread"}
+      </PageTitle>
+      <div className="mb-2 flex justify-between text-sm">
+        <Link href={`/global/${addDays(date, -1)}`} className={navLink}><ChevronLeft size={16} aria-hidden /> Previous day</Link>
+        <Link href={next >= today ? "/today" : `/global/${next}`} className={navLink}>
+          {next >= today ? "Today" : "Next day"} <ChevronRight size={16} aria-hidden />
         </Link>
       </div>
-      <p className="mb-4 text-sm text-muted">New posts are closed for this day, but you can still comment.</p>
-      {(posts.data ?? []).length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-line p-6 text-center text-muted">No posts this day.</p>
+      {list.length === 0 ? (
+        <p className="py-6 text-muted">No one shared that day.</p>
       ) : (
-        <div className="space-y-3">
-          {(posts.data ?? []).map((p) => (
+        <PostList>
+          {list.map((p) => (
             <PostCard key={p.id} post={p} viewerId={viewer.id} timeZone={tz} readOnly={viewer.profile.is_demo} />
           ))}
-        </div>
+        </PostList>
       )}
     </div>
   );

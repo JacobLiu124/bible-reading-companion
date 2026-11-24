@@ -5,13 +5,13 @@ const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).jo
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-accent-ink hover:opacity-90",
-  secondary: "bg-surface border border-line text-ink hover:bg-surface-2",
+  primary: "bg-accent text-accent-ink hover:brightness-110",
+  secondary: "bg-surface-2 text-ink hover:bg-line",
   ghost: "text-muted hover:text-ink hover:bg-surface-2",
-  danger: "bg-surface border border-line text-danger hover:bg-surface-2",
+  danger: "bg-surface-2 text-danger hover:bg-line",
 };
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
 
 export function Button({ variant = "primary", className, ...p }: ComponentProps<"button"> & { variant?: Variant }) {
   return <button className={cx(base, variants[variant], className)} {...p} />;
@@ -21,12 +21,13 @@ export function LinkButton({ variant = "primary", className, ...p }: ComponentPr
   return <Link className={cx(base, variants[variant], className)} {...p} />;
 }
 
+/** A quiet tinted panel for forms and grouped settings. Feeds and lists don't use it. */
 export function Card({ className, ...p }: ComponentProps<"div">) {
-  return <div className={cx("rounded-2xl border border-line bg-surface p-5", className)} {...p} />;
+  return <div className={cx("rounded-2xl bg-surface-2 p-5", className)} {...p} />;
 }
 
 const field =
-  "w-full rounded-xl border border-line bg-surface px-3 py-2 text-base text-ink placeholder:text-muted/70 focus:border-accent focus:outline-none";
+  "w-full rounded-xl border border-line bg-surface px-3 py-2 text-base text-ink placeholder:text-muted focus:border-accent focus:outline-none";
 
 export function Input({ className, ...p }: ComponentProps<"input">) {
   return <input className={cx(field, className)} {...p} />;
@@ -41,7 +42,7 @@ export function Select({ className, ...p }: ComponentProps<"select">) {
 export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
     <label className="block space-y-1.5">
-      <span className="text-sm font-medium">{label}</span>
+      <span className="text-sm font-semibold">{label}</span>
       {children}
       {hint && <span className="block text-xs text-muted">{hint}</span>}
     </label>
@@ -50,18 +51,27 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
 
 export function FormError({ message }: { message?: string | null }) {
   if (!message) return null;
-  return <p role="alert" className="rounded-xl bg-danger/10 px-3 py-2 text-sm text-danger">{message}</p>;
+  return <p role="alert" className="text-sm font-medium text-danger">{message}</p>;
 }
 
 export function Badge({ className, ...p }: ComponentProps<"span">) {
-  return <span className={cx("inline-flex items-center rounded-full bg-surface-2 px-2.5 py-0.5 text-xs text-muted", className)} {...p} />;
+  return <span className={cx("inline-flex items-center gap-1 rounded-full bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-muted", className)} {...p} />;
 }
 
 export function PageTitle({ children, sub }: { children: ReactNode; sub?: ReactNode }) {
   return (
     <div className="mb-6">
-      <h1 className="font-serif text-3xl font-semibold tracking-tight">{children}</h1>
+      <h1 className="text-3xl font-bold tracking-tight">{children}</h1>
       {sub && <p className="mt-1 text-muted">{sub}</p>}
+    </div>
+  );
+}
+
+export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
+  return (
+    <div className="mb-3 flex items-baseline justify-between gap-4">
+      <h2 className="text-lg font-bold">{children}</h2>
+      {action}
     </div>
   );
 }

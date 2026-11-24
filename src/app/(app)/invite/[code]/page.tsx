@@ -28,14 +28,14 @@ async function Invite({ params }: { params: Params }) {
     <Card className="mx-auto max-w-md text-center">
       {!invite || !invite.valid ? (
         <>
-          <h1 className="font-serif text-2xl font-semibold">Invite not valid</h1>
+          <h1 className="text-2xl font-bold">Invite not valid</h1>
           <p className="mt-2 text-muted">This invite link has expired or been revoked. Ask for a new one.</p>
           <Link href="/groups" className="mt-4 inline-block text-accent">Go to groups</Link>
         </>
       ) : (
         <>
           <p className="text-sm text-muted">You&apos;re invited to join</p>
-          <h1 className="mt-1 font-serif text-2xl font-semibold">{invite.group_name}</h1>
+          <h1 className="mt-1 text-2xl font-bold">{invite.group_name}</h1>
           <div className="mt-6">
             <JoinForm code={code} readOnly={viewer.profile.is_demo} />
           </div>

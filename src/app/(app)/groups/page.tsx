@@ -46,9 +46,9 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
   return (
     <div className="space-y-10">
       <section>
-        <h2 className="mb-3 font-serif text-xl font-semibold">My groups</h2>
+        <h2 className="mb-3 text-lg font-bold">Your groups</h2>
         {mine.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-line p-6 text-center text-muted">
+          <p className="text-muted">
             You&apos;re not in any groups yet. Join one below or create your own.
           </p>
         ) : (
@@ -61,7 +61,7 @@ async function GroupLists({ searchParams }: { searchParams: Search }) {
       </section>
 
       <section>
-        <h2 className="mb-3 font-serif text-xl font-semibold">Discover public groups</h2>
+        <h2 className="mb-3 text-lg font-bold">Discover public groups</h2>
         <form className="mb-4 flex flex-col gap-2 sm:flex-row">
           <Input name="q" defaultValue={q} placeholder="Search by name" className="sm:flex-1" />
           <Select name="denomination" defaultValue={denomination} className="sm:w-60">

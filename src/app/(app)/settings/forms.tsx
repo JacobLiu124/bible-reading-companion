@@ -45,7 +45,7 @@ export function ProfileForm({ initial, readOnly }: { initial: ProfileInit; readO
         </Select>
       </Field>
       <FormError message={state?.error} />
-      {state?.ok && <p className="text-sm text-ok">Saved ✓</p>}
+      {state?.ok && <p className="text-sm text-ok">Saved</p>}
       <Button disabled={pending || readOnly}>{pending ? "Saving…" : "Save"}</Button>
     </form>
   );

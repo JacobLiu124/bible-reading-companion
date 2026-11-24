@@ -618,6 +618,11 @@ isOneToOne: false
 "edit_post":
 { Args: { "body": string,"id": string,"title": string,"verse_ref": string,"verse_text": string }; Returns: undefined
                            },
+"friends_read_today":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "checked_in_at": string,"display_name": string,"user_id": string,"username": string
+            }[]
+                           },
 "global_restriction":
 { Args: { "uid": string }; Returns: string
                            },

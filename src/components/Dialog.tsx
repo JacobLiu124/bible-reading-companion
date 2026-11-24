@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import { type ReactNode, useEffect, useRef } from "react";
 
 /** Native <dialog> modal. Controlled by `open`. */
@@ -21,8 +22,8 @@ export function Dialog({
     >
       <div className="p-5">
         <div className="mb-4 flex items-center justify-between gap-4">
-          <h2 className="font-serif text-xl font-semibold">{title}</h2>
-          <button type="button" onClick={onClose} className="text-muted hover:text-ink" aria-label="Close">✕</button>
+          <h2 className="text-xl font-bold">{title}</h2>
+          <button type="button" onClick={onClose} className="rounded-full p-1 text-muted hover:bg-surface-2 hover:text-ink" aria-label="Close"><X size={18} aria-hidden /></button>
         </div>
         {children}
       </div>

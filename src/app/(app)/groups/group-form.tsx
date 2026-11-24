@@ -32,16 +32,16 @@ export function GroupForm({ initial, readOnly }: { initial?: Initial; readOnly?:
           <legend className="text-sm font-medium">Who can join?</legend>
           <label className="flex items-start gap-2 text-sm">
             <input type="radio" name="visibility" value="public" defaultChecked className="mt-1 accent-[var(--accent)]" />
-            <span><strong>Public</strong> — anyone can find it, read it and join.</span>
+            <span><strong>Public.</strong> Anyone can find it, read it and join.</span>
           </label>
           <label className="flex items-start gap-2 text-sm">
             <input type="radio" name="visibility" value="private" className="mt-1 accent-[var(--accent)]" />
-            <span><strong>Private</strong> — hidden; people join with an invite link. Only members can read it.</span>
+            <span><strong>Private.</strong> Hidden from search. People join with an invite link, and only members can read it.</span>
           </label>
         </fieldset>
       )}
       <FormError message={state?.error} />
-      {state?.ok && <p className="text-sm text-ok">Saved ✓</p>}
+      {state?.ok && <p className="text-sm text-ok">Saved</p>}
       <Button disabled={pending || readOnly}>{pending ? "Saving…" : initial ? "Save changes" : "Create group"}</Button>
     </form>
   );

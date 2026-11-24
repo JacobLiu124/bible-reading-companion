@@ -21,7 +21,7 @@ export function CopyLink({ path }: { path: string }) {
           setTimeout(() => setCopied(false), 1500);
         }}
       >
-        {copied ? "Copied ✓" : "Copy"}
+        {copied ? "Copied" : "Copy"}
       </Button>
     </div>
   );

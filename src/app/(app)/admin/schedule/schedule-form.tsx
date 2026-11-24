@@ -19,7 +19,7 @@ export function ScheduleForm({ defaultDay }: { defaultDay: string }) {
       <Button disabled={pending}>{pending ? "Saving…" : "Set"}</Button>
       <div className="sm:col-span-4">
         <FormError message={state?.error} />
-        {state?.ok && <p className="text-sm text-ok">Saved ✓</p>}
+        {state?.ok && <p className="text-sm text-ok">Saved</p>}
       </div>
     </form>
   );

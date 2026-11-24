@@ -1,46 +1,48 @@
+import { BookOpen, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { Avatar } from "@/components/Avatar";
 import { ContentMenu } from "@/components/ContentMenu";
 import { ReactionButton } from "@/components/ReactionButton";
-import { Badge } from "@/components/ui";
 import { formatTime } from "@/lib/format";
 import type { FeedPost } from "@/lib/types";
 
+/** One post in a feed: avatar on the left, words on the right, no box around it. */
 export function PostCard({
-  post, viewerId, timeZone, readOnly, showGroup = false, linkToPost = true,
+  post, viewerId, timeZone, readOnly, showGroup = false, showReference = false, linkToPost = true,
 }: {
   post: FeedPost;
   viewerId: string;
   timeZone: string;
   readOnly: boolean;
   showGroup?: boolean;
+  showReference?: boolean;
   linkToPost?: boolean;
 }) {
   const removed = Boolean(post.removed);
   const comments = Number(post.comment_count ?? 0);
   return (
-    <article className="rounded-2xl border border-line bg-surface p-5">
-      <header className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="truncate font-medium">
-            {post.author_display_name} <span className="font-normal text-muted">@{post.author_username}</span>
+    <article className="flex gap-3 py-4">
+      <Avatar name={post.author_display_name} seed={post.author_username} />
+      <div className="min-w-0 flex-1">
+        <header className="flex items-start justify-between gap-2">
+          <p className="min-w-0 text-sm leading-tight">
+            <span className="font-bold">{post.author_display_name}</span>{" "}
+            <span className="text-muted">@{post.author_username}</span>
+            <span className="block text-xs text-muted">
+              {formatTime(post.created_at, timeZone)}
+              {post.edited_at && ", edited"}
+              {showGroup && (
+                <>
+                  {" in "}
+                  {post.group_slug ? (
+                    <Link className="font-medium hover:underline" href={`/groups/${post.group_slug}`}>{post.group_name}</Link>
+                  ) : (
+                    "the global thread"
+                  )}
+                </>
+              )}
+            </span>
           </p>
-          <p className="text-xs text-muted">
-            {formatTime(post.created_at, timeZone)}
-            {post.edited_at && " · edited"}
-            {showGroup && (
-              <>
-                {" · "}
-                {post.group_slug ? (
-                  <Link className="hover:underline" href={`/groups/${post.group_slug}`}>{post.group_name}</Link>
-                ) : (
-                  "🌍 Global"
-                )}
-              </>
-            )}
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          {post.kind === "reading" && post.reference && <Badge>📖 {post.reference}</Badge>}
           <ContentMenu
             target={{
               type: "post", id: post.id, authorId: post.author_id, authorName: post.author_display_name,
@@ -52,37 +54,52 @@ export function PostCard({
             readOnly={readOnly}
             removed={removed}
           />
-        </div>
-      </header>
+        </header>
 
-      {removed && <p className="mt-3 text-sm italic text-muted">Removed by a moderator.</p>}
-      {(!removed || post.can_moderate) && (
-        <div className={`mt-3 space-y-3 ${removed ? "opacity-60" : ""}`}>
-          {post.title && <h3 className="font-serif text-lg font-semibold">{post.title}</h3>}
-          {post.verse_text && (
-            <blockquote className="border-l-4 border-accent/60 pl-3 font-serif italic">
-              &ldquo;{post.verse_text}&rdquo;
-              {post.verse_ref && <span className="not-italic text-muted"> — {post.verse_ref}</span>}
-            </blockquote>
-          )}
-          {!post.verse_text && post.verse_ref && <p className="text-sm text-muted">{post.verse_ref}</p>}
-          {post.body && <p className="whitespace-pre-wrap leading-relaxed">{post.body}</p>}
-        </div>
-      )}
-
-      <footer className="mt-4 flex items-center gap-2">
-        <ReactionButton
-          postId={post.id}
-          count={Number(post.reaction_count ?? 0)}
-          reacted={Boolean(post.reacted_by_me)}
-          disabled={readOnly || removed}
-        />
-        {linkToPost && (
-          <Link href={`/posts/${post.id}`} className="rounded-full px-3 py-1 text-sm text-muted hover:bg-surface-2">
-            💬 {comments} {comments === 1 ? "comment" : "comments"}
-          </Link>
+        {showReference && post.kind === "reading" && post.reference && (
+          <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-accent">
+            <BookOpen size={14} aria-hidden /> {post.reference}
+          </p>
         )}
-      </footer>
+
+        {removed && <p className="mt-2 text-sm italic text-muted">Removed by a moderator.</p>}
+        {(!removed || post.can_moderate) && (
+          <div className={`mt-2 space-y-2 ${removed ? "opacity-60" : ""}`}>
+            {post.title && <h3 className="font-bold">{post.title}</h3>}
+            {post.verse_text && (
+              <blockquote className="border-l-2 border-accent pl-3">
+                <p>&ldquo;{post.verse_text}&rdquo;</p>
+                {post.verse_ref && <p className="mt-0.5 text-sm text-muted">{post.verse_ref}</p>}
+              </blockquote>
+            )}
+            {!post.verse_text && post.verse_ref && <p className="text-sm text-muted">{post.verse_ref}</p>}
+            {post.body && <p className="whitespace-pre-wrap leading-relaxed">{post.body}</p>}
+          </div>
+        )}
+
+        <footer className="-ml-2.5 mt-2 flex items-center gap-1">
+          <ReactionButton
+            postId={post.id}
+            count={Number(post.reaction_count ?? 0)}
+            reacted={Boolean(post.reacted_by_me)}
+            disabled={readOnly || removed}
+          />
+          {linkToPost && (
+            <Link
+              href={`/posts/${post.id}`}
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium text-muted hover:bg-surface-2 hover:text-ink"
+            >
+              <MessageCircle size={16} aria-hidden />
+              {comments > 0 ? `${comments} ${comments === 1 ? "reply" : "replies"}` : "Reply"}
+            </Link>
+          )}
+        </footer>
+      </div>
     </article>
   );
+}
+
+/** A list of posts separated by hairlines. */
+export function PostList({ children }: { children: React.ReactNode }) {
+  return <div className="divide-y divide-line">{children}</div>;
 }

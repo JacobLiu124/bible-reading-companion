@@ -1,14 +1,12 @@
-import Link from "next/link";
+import { BackLink } from "@/components/BackLink";
 
 export const metadata = { title: "Privacy" };
 
 export default function Privacy() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-12 leading-relaxed">
-      <Link href="/" className="text-sm text-accent">
-        ← Back
-      </Link>
-      <h1 className="mt-4 font-serif text-3xl font-semibold">Privacy note</h1>
+      <BackLink href="/">Back</BackLink>
+      <h1 className="mt-4 text-3xl font-bold">Privacy note</h1>
       <div className="mt-6 space-y-4 text-muted">
         <p>OneJoy is a small, free project. You must be 13 or older to use it.</p>
         <p>

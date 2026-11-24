@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ActionButton } from "@/components/ActionButton";
+import { BackLink } from "@/components/BackLink";
 import { Badge, Card, PageTitle, Skeleton } from "@/components/ui";
 import { requireViewer } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -47,17 +47,17 @@ async function Settings({ params }: { params: Params }) {
   return (
     <div className="space-y-6">
       <div>
-        <Link href={`/groups/${group.slug}`} className="text-sm text-accent">← {group.name}</Link>
+        <BackLink href={`/groups/${group.slug}`}>{group.name}</BackLink>
         <PageTitle>Manage group</PageTitle>
       </div>
 
       <Card>
-        <h2 className="mb-4 font-serif text-lg font-semibold">Details</h2>
+        <h2 className="mb-4 text-lg font-bold">Details</h2>
         <GroupForm initial={group} readOnly={readOnly} />
       </Card>
 
       <Card>
-        <h2 className="mb-1 font-serif text-lg font-semibold">Invite links</h2>
+        <h2 className="mb-1 text-lg font-bold">Invite links</h2>
         <p className="mb-4 text-sm text-muted">
           {group.visibility === "private" ? "Private groups can only be joined with an invite link." : "Anyone can join this public group, but invite links make it easy to share."}
           {" "}Links last 7 days.
@@ -79,7 +79,7 @@ async function Settings({ params }: { params: Params }) {
       </Card>
 
       <Card>
-        <h2 className="mb-4 font-serif text-lg font-semibold">Members ({active.length})</h2>
+        <h2 className="mb-4 text-lg font-bold">Members ({active.length})</h2>
         <ul className="divide-y divide-line">
           {active.map((m) => (
             <li key={m.user_id} className="flex flex-wrap items-center justify-between gap-2 py-3">
@@ -109,7 +109,7 @@ async function Settings({ params }: { params: Params }) {
 
       {banned.length > 0 && (
         <Card>
-          <h2 className="mb-4 font-serif text-lg font-semibold">Banned</h2>
+          <h2 className="mb-4 text-lg font-bold">Banned</h2>
           <ul className="divide-y divide-line">
             {banned.map((m) => (
               <li key={m.user_id} className="flex items-center justify-between py-3">
@@ -122,8 +122,8 @@ async function Settings({ params }: { params: Params }) {
       )}
 
       {isOwner && (
-        <Card className="border-danger/40">
-          <h2 className="mb-1 font-serif text-lg font-semibold text-danger">Delete group</h2>
+        <Card>
+          <h2 className="mb-1 text-lg font-bold text-danger">Delete group</h2>
           <p className="mb-3 text-sm text-muted">Deletes the group and all its posts for everyone. This can&apos;t be undone.</p>
           <ActionButton variant="danger" action={deleteOwnGroupAction.bind(null, group.id)} confirm={`Delete ${group.name} and all its posts? This can't be undone.`} disabled={readOnly}>
             Delete group

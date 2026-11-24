@@ -49,16 +49,16 @@ async function Queue() {
   return (
     <div className="space-y-10">
       <section className="space-y-3">
-        <h2 className="font-serif text-xl font-semibold">Open reports ({queue.length})</h2>
+        <h2 className="text-lg font-bold">Open reports ({queue.length})</h2>
         {queue.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-line p-6 text-center text-muted">Nothing to review. 🙌</p>
+          <p className="text-muted">Nothing to review. Reports from your groups will show up here.</p>
         )}
         {queue.map((r) => (
           <Card key={r.id} className="space-y-3">
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <Badge className="bg-danger/10 text-danger">{REASONS[r.reason]}</Badge>
               <span className="text-muted">
-                {r.is_global ? "🌍 Global thread" : r.groups?.name} · reported by @{r.reporter_username} · {formatTime(r.created_at, tz)}
+                {r.is_global ? "Global thread" : r.groups?.name}, reported by @{r.reporter_username} on {formatTime(r.created_at, tz)}
               </span>
             </div>
             <blockquote className="whitespace-pre-wrap rounded-xl bg-surface-2 p-3 text-sm">
@@ -66,7 +66,7 @@ async function Queue() {
               {"\n"}{r.content_snapshot || "(no text)"}
             </blockquote>
             {r.note && <p className="text-sm text-muted">Note: {r.note}</p>}
-            {r.post_id && <Link href={`/posts/${r.post_id}`} className="text-sm text-accent">View in context →</Link>}
+            {r.post_id && <Link href={`/posts/${r.post_id}`} className="text-sm font-medium text-accent hover:underline">View in context</Link>}
             <ReportActions
               report={{ ...r, group_name: r.groups?.name ?? null }}
               canDeleteGroup={isSiteAdmin && r.groups?.visibility === "public"}
@@ -76,7 +76,7 @@ async function Queue() {
       </section>
 
       <section>
-        <h2 className="mb-3 font-serif text-xl font-semibold">Recent actions</h2>
+        <h2 className="mb-3 text-lg font-bold">Recent actions</h2>
         {(log.data ?? []).length === 0 ? (
           <p className="text-muted">No actions yet.</p>
         ) : (
@@ -86,8 +86,8 @@ async function Queue() {
                 <span className="font-medium">@{a.actor_username}</span> {a.action.replace("_", " ")}{" "}
                 {a.target_username && <span className="font-medium">@{a.target_username}</span>}{" "}
                 <span className="text-muted">
-                  in {a.is_global ? "the global thread" : (a.group_name ?? "a deleted group")} · {formatTime(a.created_at, tz)}
-                  {a.reason && ` · “${a.reason}”`}
+                  in {a.is_global ? "the global thread" : (a.group_name ?? "a deleted group")}, {formatTime(a.created_at, tz)}
+                  {a.reason && `. Reason: ${a.reason}`}
                 </span>
               </li>
             ))}

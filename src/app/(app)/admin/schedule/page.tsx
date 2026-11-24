@@ -1,3 +1,4 @@
+import { TriangleAlert } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ActionButton } from "@/components/ActionButton";
@@ -37,12 +38,13 @@ async function Schedule() {
   return (
     <div className="space-y-6">
       {missingSoon.length > 0 && (
-        <p role="alert" className="rounded-2xl bg-danger/10 p-4 text-sm text-danger">
-          ⚠️ {missingSoon.length} of the next 7 days {missingSoon.length === 1 ? "has" : "have"} no reading: {missingSoon.map(formatDay).join(", ")}.
+        <p role="alert" className="flex gap-2 rounded-2xl bg-danger/10 p-4 text-sm text-ink">
+          <TriangleAlert size={18} className="shrink-0 text-danger" aria-hidden />
+          {missingSoon.length} of the next 7 days {missingSoon.length === 1 ? "has" : "have"} no reading: {missingSoon.map(formatDay).join(", ")}.
         </p>
       )}
       <Card>
-        <h2 className="mb-3 font-serif text-lg font-semibold">Set a day</h2>
+        <h2 className="mb-3 text-lg font-bold">Set a day</h2>
         <ScheduleForm defaultDay={firstGap} />
       </Card>
       <Card className="p-0">
