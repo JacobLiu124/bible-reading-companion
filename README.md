@@ -1,4 +1,4 @@
-# OneJoy: read the Bible every day, together
+# OneJoy - reading the bible, with joy and striding side by side with other Christians
 
 [![CI](https://github.com/JacobLiu124/bible-reading-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/JacobLiu124/bible-reading-companion/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
