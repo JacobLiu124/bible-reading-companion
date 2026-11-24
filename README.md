@@ -1,4 +1,4 @@
-# OneJoy — read the Bible every day, together
+# OneJoy - reading the bible, with joy and striding side by side with other Christians 
 
 OneJoy is a companion for reading a **paper Bible**. Each day the app gives everyone the same chapter.
 You read it in your own Bible, tap **"I read it"**, and share what stood out with your groups and with
