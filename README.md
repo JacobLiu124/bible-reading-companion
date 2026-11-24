@@ -1,4 +1,9 @@
-# OneJoy — read the Bible every day, together
+# OneJoy: read the Bible every day, together
+
+[![CI](https://github.com/JacobLiu124/bible-reading-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/JacobLiu124/bible-reading-companion/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+[Contributing](CONTRIBUTING.md) · [Architecture decisions](docs/adr/README.md) · [Changelog](CHANGELOG.md) · [Security](SECURITY.md)
 
 OneJoy is a companion for reading a **paper Bible**. Each day the app gives everyone the same chapter.
 You read it in your own Bible, tap **"I read it"**, and share what stood out with your groups and with
@@ -90,8 +95,10 @@ supabase/migrations/   schema, RLS policies, RPCs, reading plan
 supabase/tests/        pgTAP tests
 src/app/(auth)/        sign in / sign up / demo
 src/app/(app)/         today, global archive, groups, posts, moderation, admin, settings
-src/components/        UI pieces (PostCard, ContentMenu, StreakCard, …)
+src/components/        UI pieces (PostCard, ContentMenu, WeekDots, …)
 src/lib/               streak + date logic, validation, Supabase clients
 scripts/seed-demo.ts   demo account + sample data
 tests/                 unit + e2e tests
+docs/adr/              architecture decision records
+.github/               CI, Dependabot, issue and PR templates
 ```
