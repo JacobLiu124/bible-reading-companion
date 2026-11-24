@@ -6,7 +6,7 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const lora = Lora({ variable: "--font-lora", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Lamp — read the Bible together", template: "%s · Lamp" },
+  title: { default: "OneJoy — read the Bible together", template: "%s · OneJoy" },
   description: "A daily Bible reading companion: read today's chapter in your own Bible, check in, and talk about it with friends.",
 };
 

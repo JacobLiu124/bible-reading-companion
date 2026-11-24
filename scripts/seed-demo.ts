@@ -54,9 +54,9 @@ async function ensureUser(email: string, password: string, username: string, dis
 async function main() {
   const randomPw = () => randomBytes(18).toString("base64url");
   const demo = await ensureUser(demoEmail!, demoPassword!, "demo", "Demo Reader");
-  const ruth = await ensureUser("ruth@demo.lamp", randomPw(), "ruth_m", "Ruth Miller");
-  const sam = await ensureUser("sam@demo.lamp", randomPw(), "samuel_o", "Samuel Okafor");
-  const grace = await ensureUser("grace@demo.lamp", randomPw(), "grace_lee", "Grace Lee");
+  const ruth = await ensureUser("ruth@demo.onejoy", randomPw(), "ruth_m", "Ruth Miller");
+  const sam = await ensureUser("sam@demo.onejoy", randomPw(), "samuel_o", "Samuel Okafor");
+  const grace = await ensureUser("grace@demo.onejoy", randomPw(), "grace_lee", "Grace Lee");
   const people = [demo, ruth, sam, grace];
 
   await must(db.from("profiles").update({ is_demo: true, weekly_goal: 3 }).eq("id", demo), "flag demo");
@@ -73,7 +73,7 @@ async function main() {
   const group = await must(
     db.from("groups").insert({
       name: "Demo Fellowship", slug: "demo-fellowship", visibility: "public", denomination: "non_denominational",
-      description: "A sample group so you can see how Lamp works.",
+      description: "A sample group so you can see how OneJoy works.",
       rules: "Be kind. Assume the best. Stay on topic.", owner_id: ruth,
     }).select().single(),
     "create group",

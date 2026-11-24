@@ -1,3 +1,4 @@
+import { Logo } from "@/components/Logo";
 import { LinkButton } from "@/components/ui";
 import { DemoButton } from "./(auth)/auth-forms";
 
@@ -12,14 +13,14 @@ export default function Landing() {
   const demo = Boolean(process.env.DEMO_EMAIL && process.env.DEMO_PASSWORD);
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-16">
-      <p className="font-serif text-xl">🪔 Lamp</p>
+      <Logo className="text-xl" />
       <h1 className="mt-10 font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
         Read the Bible every day,
         <br />
         together.
       </h1>
       <p className="mt-4 max-w-xl text-lg text-muted">
-        Lamp tells you today&apos;s chapter. Read it in your own Bible, check in, and talk about what
+        OneJoy tells you today&apos;s chapter. Read it in your own Bible, check in, and talk about what
         stood out with your friends.
       </p>
       <div className="mt-8 flex max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row">
@@ -41,7 +42,7 @@ export default function Landing() {
         ))}
       </ul>
       <p className="mt-16 text-center text-sm italic text-muted">
-        &ldquo;Thy word is a lamp unto my feet, and a light unto my path.&rdquo; — Psalm 119:105 (KJV)
+        &ldquo;The joy of the LORD is your strength.&rdquo; — Nehemiah 8:10 (KJV)
       </p>
     </main>
   );

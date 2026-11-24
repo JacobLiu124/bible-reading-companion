@@ -8,8 +8,8 @@ export function safeNext(next: unknown): string {
   // No control characters, raw or percent-encoded (e.g. %0d%0a), and no encoded backslash.
   if (/[\u0000-\u001f]/.test(n) || /%(0[0-9a-f]|1[0-9a-f]|5c)/i.test(n)) return FALLBACK;
   try {
-    const url = new URL(n, "http://lamp.invalid");
-    return url.origin === "http://lamp.invalid" ? url.pathname + url.search : FALLBACK;
+    const url = new URL(n, "http://onejoy.invalid");
+    return url.origin === "http://onejoy.invalid" ? url.pathname + url.search : FALLBACK;
   } catch {
     return FALLBACK;
   }

@@ -1,6 +1,6 @@
-# 🪔 Lamp — read the Bible every day, together
+# OneJoy — read the Bible every day, together
 
-Lamp is a companion for reading a **paper Bible**. Each day the app gives everyone the same chapter.
+OneJoy is a companion for reading a **paper Bible**. Each day the app gives everyone the same chapter.
 You read it in your own Bible, tap **"I read it"**, and share what stood out with your groups and with
 everyone else reading that chapter in the daily **global thread**.
 
@@ -35,7 +35,7 @@ Browser ──► Next.js (App Router, Server Components + Server Actions) ─�
 - **Moderation records outlive account deletion** via username snapshots, so deleting an account can't erase a ban.
 - **Streak maths is a pure function** (`src/lib/streak.ts`): Monday–Sunday weeks in the user's own timezone, using the goal that applied in each week.
 
-**Why no Bible text?** Lamp is meant to send people to their paper Bibles. Leaving the text out also avoids translation licensing (NIV and ESV need permission for apps, and YouVersion's API terms forbid apps that compete with its Bible App). Users can still quote a verse by typing it themselves.
+**Why no Bible text?** OneJoy is meant to send people to their paper Bibles. Leaving the text out also avoids translation licensing (NIV and ESV need permission for apps, and YouVersion's API terms forbid apps that compete with its Bible App). Users can still quote a verse by typing it themselves.
 
 ## Tests
 

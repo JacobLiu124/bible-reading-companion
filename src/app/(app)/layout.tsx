@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { Logo } from "@/components/Logo";
 import { NoticeBanner } from "@/components/NoticeBanner";
 import { createClient } from "@/lib/supabase/server";
 import { moderatesSomething } from "@/lib/queries";
@@ -45,7 +46,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-1 flex-col">
       <header className="sticky top-0 z-20 border-b border-line bg-bg/90 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center gap-2 px-4 py-3">
-          <Link href="/today" className="mr-2 font-serif text-xl font-semibold">🪔 Lamp</Link>
+          <Logo href="/today" className="mr-2 text-xl" />
           <nav className="hidden gap-1 sm:flex">
             {NAV.map((n) => (
               <Link key={n.href} href={n.href} className="rounded-full px-3 py-1.5 text-sm text-muted hover:bg-surface-2 hover:text-ink">

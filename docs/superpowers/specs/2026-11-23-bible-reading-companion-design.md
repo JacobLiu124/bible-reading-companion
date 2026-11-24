@@ -1,6 +1,6 @@
 # Bible Reading Companion — MVP Design
 
-Working name: **Lamp** (from Psalm 119:105). Name is a placeholder; easy to change.
+Name: **OneJoy** (renamed from the working name "Lamp" on 2026-11-24).
 Date: 2026-11-23
 
 ## Intent and the why

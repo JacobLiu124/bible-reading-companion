@@ -10,14 +10,14 @@ export default function Privacy() {
       </Link>
       <h1 className="mt-4 font-serif text-3xl font-semibold">Privacy note</h1>
       <div className="mt-6 space-y-4 text-muted">
-        <p>Lamp is a small, free project. You must be 13 or older to use it.</p>
+        <p>OneJoy is a small, free project. You must be 13 or older to use it.</p>
         <p>
           <strong className="text-ink">What we store:</strong> your email, name, username, timezone,
           optional denomination, weekly goal, the days you checked in, and what you post.
         </p>
         <p>
           <strong className="text-ink">Passwords</strong> are handled by our sign-in provider
-          (Supabase Auth) and are never stored by Lamp itself.
+          (Supabase Auth) and are never stored by OneJoy itself.
         </p>
         <p>
           <strong className="text-ink">Who can see what:</strong> posts in private groups are visible

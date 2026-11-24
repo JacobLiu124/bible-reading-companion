@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Calm, paper-like palette. Accent is a warm lamp-light amber. */
+/* Calm, paper-like palette. Accent is a warm amber. */
 :root {
   --bg: #faf7f2;
   --surface: #ffffff;
