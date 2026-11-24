@@ -35,7 +35,10 @@ export async function moderateUserAction(_: ActionResult, form: FormData): Promi
   }
 }
 
-export async function resolveReportAction(id: string, status: "resolved" | "dismissed"): Promise<ActionResult> {
+export async function resolveReportAction(
+  id: string,
+  status: "resolved" | "dismissed",
+): Promise<ActionResult> {
   return runAction((sb) => sb.rpc("resolve_report", { id, status }));
 }
 

@@ -11,13 +11,16 @@ function firstName(name: string) {
 export function FriendsRow({ friends, inAnyGroup }: { friends: Friend[]; inAnyGroup: boolean }) {
   if (!inAnyGroup) {
     return (
-      <p className="text-sm text-muted">
-        <Link href="/groups" className="font-semibold text-accent hover:underline">Join a group</Link> to see when friends read.
+      <p className="text-muted text-sm">
+        <Link href="/groups" className="text-accent font-semibold hover:underline">
+          Join a group
+        </Link>{" "}
+        to see when friends read.
       </p>
     );
   }
   if (friends.length === 0) {
-    return <p className="text-sm text-muted">No one in your groups has read yet today.</p>;
+    return <p className="text-muted text-sm">No one in your groups has read yet today.</p>;
   }
   const names = friends.slice(0, 2).map((f) => firstName(f.display_name));
   const others = friends.length - names.length;
@@ -32,7 +35,7 @@ export function FriendsRow({ friends, inAnyGroup }: { friends: Friend[]; inAnyGr
           <Avatar key={f.user_id} name={f.display_name} seed={f.username} size={30} ring />
         ))}
       </div>
-      <p className="text-sm text-muted">{text}</p>
+      <p className="text-muted text-sm">{text}</p>
     </div>
   );
 }

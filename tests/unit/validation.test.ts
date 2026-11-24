@@ -1,11 +1,19 @@
 import { describe, expect, test } from "vitest";
 import {
-  commentSchema, generalPostSchema, groupSchema, readingPostSchema, signUpSchema,
+  commentSchema,
+  generalPostSchema,
+  groupSchema,
+  readingPostSchema,
+  signUpSchema,
 } from "@/lib/validation";
 
 const goodSignUp = {
-  email: "ann@example.com", password: "longenough", username: "ann_1",
-  displayName: "Ann", ageConfirmed: "on", timezone: "Europe/London",
+  email: "ann@example.com",
+  password: "longenough",
+  username: "ann_1",
+  displayName: "Ann",
+  ageConfirmed: "on",
+  timezone: "Europe/London",
 };
 
 describe("signUpSchema", () => {
@@ -28,7 +36,9 @@ describe("signUpSchema", () => {
 describe("post and comment limits", () => {
   test("reading post needs a reflection or a verse", () => {
     expect(readingPostSchema.safeParse({ body: "", verseRef: "", verseText: "" }).success).toBe(false);
-    expect(readingPostSchema.safeParse({ body: "", verseRef: "Ps 23:1", verseText: "The Lord" }).success).toBe(true);
+    expect(
+      readingPostSchema.safeParse({ body: "", verseRef: "Ps 23:1", verseText: "The Lord" }).success,
+    ).toBe(true);
   });
   test("reflection over 1000 characters is rejected", () => {
     expect(readingPostSchema.safeParse({ body: "a".repeat(1001) }).success).toBe(false);
@@ -46,7 +56,11 @@ describe("post and comment limits", () => {
   });
   test("group name 3..60 and a known denomination", () => {
     expect(groupSchema.safeParse({ name: "ab", visibility: "public" }).success).toBe(false);
-    expect(groupSchema.safeParse({ name: "Grace", visibility: "public", denomination: "catholic" }).success).toBe(false);
-    expect(groupSchema.safeParse({ name: "Grace", visibility: "private", denomination: "baptist" }).success).toBe(true);
+    expect(
+      groupSchema.safeParse({ name: "Grace", visibility: "public", denomination: "catholic" }).success,
+    ).toBe(false);
+    expect(
+      groupSchema.safeParse({ name: "Grace", visibility: "private", denomination: "baptist" }).success,
+    ).toBe(true);
   });
 });

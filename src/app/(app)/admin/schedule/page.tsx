@@ -29,7 +29,12 @@ async function Schedule() {
   const supabase = await createClient();
   const today = localToday(viewer.profile.timezone);
   const end = addDays(today, 59);
-  const { data } = await supabase.from("reading_schedule").select("*").gte("day", today).lte("day", end).order("day");
+  const { data } = await supabase
+    .from("reading_schedule")
+    .select("*")
+    .gte("day", today)
+    .lte("day", end)
+    .order("day");
   const byDay = new Map((data ?? []).map((r) => [r.day, r]));
   const days = Array.from({ length: 60 }, (_, i) => addDays(today, i));
   const missingSoon = days.slice(0, 7).filter((d) => !byDay.has(d));
@@ -38,9 +43,10 @@ async function Schedule() {
   return (
     <div className="space-y-6">
       {missingSoon.length > 0 && (
-        <p role="alert" className="flex gap-2 rounded-2xl bg-danger/10 p-4 text-sm text-ink">
-          <TriangleAlert size={18} className="shrink-0 text-danger" aria-hidden />
-          {missingSoon.length} of the next 7 days {missingSoon.length === 1 ? "has" : "have"} no reading: {missingSoon.map(formatDay).join(", ")}.
+        <p role="alert" className="bg-danger/10 text-ink flex gap-2 rounded-2xl p-4 text-sm">
+          <TriangleAlert size={18} className="text-danger shrink-0" aria-hidden />
+          {missingSoon.length} of the next 7 days {missingSoon.length === 1 ? "has" : "have"} no reading:{" "}
+          {missingSoon.map(formatDay).join(", ")}.
         </p>
       )}
       <Card>
@@ -48,16 +54,24 @@ async function Schedule() {
         <ScheduleForm defaultDay={firstGap} />
       </Card>
       <Card className="p-0">
-        <ul className="divide-y divide-line">
+        <ul className="divide-line divide-y">
           {days.map((d) => {
             const r = byDay.get(d);
             return (
               <li key={d} className="flex items-center justify-between gap-3 px-5 py-2.5 text-sm">
                 <span className={d === today ? "font-medium" : "text-muted"}>{formatDay(d)}</span>
                 <span className="flex items-center gap-2">
-                  {r ? <span className="font-medium">{r.label}</span> : <span className="text-danger">—</span>}
+                  {r ? (
+                    <span className="font-medium">{r.label}</span>
+                  ) : (
+                    <span className="text-danger">—</span>
+                  )}
                   {r && (
-                    <ActionButton variant="ghost" action={clearScheduleDayAction.bind(null, d)} confirm={`Clear ${r.label} on ${formatDay(d)}?`}>
+                    <ActionButton
+                      variant="ghost"
+                      action={clearScheduleDayAction.bind(null, d)}
+                      confirm={`Clear ${r.label} on ${formatDay(d)}?`}
+                    >
                       Clear
                     </ActionButton>
                   )}

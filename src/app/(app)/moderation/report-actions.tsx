@@ -7,11 +7,17 @@ import { Button } from "@/components/ui";
 import { deleteGroupAction, removeCommentAction, removePostAction, resolveReportAction } from "./actions";
 
 export function ReportActions({
-  report, canDeleteGroup,
+  report,
+  canDeleteGroup,
 }: {
   report: {
-    id: string; post_id: string | null; comment_id: string | null; group_id: string | null;
-    target_user_id: string | null; target_username: string; group_name: string | null;
+    id: string;
+    post_id: string | null;
+    comment_id: string | null;
+    group_id: string | null;
+    target_user_id: string | null;
+    target_username: string;
+    group_name: string | null;
   };
   canDeleteGroup: boolean;
 }) {
@@ -19,19 +25,33 @@ export function ReportActions({
   return (
     <div className="flex flex-wrap gap-2">
       {report.comment_id ? (
-        <ActionButton variant="danger" action={removeCommentAction.bind(null, report.comment_id, "Reported")} confirm="Remove this comment?">
+        <ActionButton
+          variant="danger"
+          action={removeCommentAction.bind(null, report.comment_id, "Reported")}
+          confirm="Remove this comment?"
+        >
           Remove comment
         </ActionButton>
       ) : report.post_id ? (
-        <ActionButton variant="danger" action={removePostAction.bind(null, report.post_id, "Reported")} confirm="Remove this post?">
+        <ActionButton
+          variant="danger"
+          action={removePostAction.bind(null, report.post_id, "Reported")}
+          confirm="Remove this post?"
+        >
           Remove post
         </ActionButton>
       ) : null}
       {report.target_user_id && (
-        <Button type="button" variant="secondary" onClick={() => setModerating(true)}>Warn / mute / ban</Button>
+        <Button type="button" variant="secondary" onClick={() => setModerating(true)}>
+          Warn / mute / ban
+        </Button>
       )}
-      <ActionButton variant="ghost" action={resolveReportAction.bind(null, report.id, "resolved")}>Mark resolved</ActionButton>
-      <ActionButton variant="ghost" action={resolveReportAction.bind(null, report.id, "dismissed")}>Dismiss</ActionButton>
+      <ActionButton variant="ghost" action={resolveReportAction.bind(null, report.id, "resolved")}>
+        Mark resolved
+      </ActionButton>
+      <ActionButton variant="ghost" action={resolveReportAction.bind(null, report.id, "dismissed")}>
+        Dismiss
+      </ActionButton>
       {canDeleteGroup && report.group_id && (
         <ActionButton
           variant="danger"
@@ -43,7 +63,11 @@ export function ReportActions({
       )}
       {moderating && report.target_user_id && (
         <ModerateDialog
-          target={{ authorId: report.target_user_id, authorName: report.target_username, groupId: report.group_id }}
+          target={{
+            authorId: report.target_user_id,
+            authorName: report.target_username,
+            groupId: report.group_id,
+          }}
           onClose={() => setModerating(false)}
         />
       )}

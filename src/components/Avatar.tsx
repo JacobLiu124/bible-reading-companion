@@ -19,13 +19,21 @@ function tintFor(key: string): string {
 
 /** Initials avatar. The tint is stable per person so friends are recognisable at a glance. */
 export function Avatar({
-  name, seed, size = 36, ring = false,
-}: { name: string; seed: string; size?: number; ring?: boolean }) {
+  name,
+  seed,
+  size = 36,
+  ring = false,
+}: {
+  name: string;
+  seed: string;
+  size?: number;
+  ring?: boolean;
+}) {
   return (
     <span
       aria-hidden
       style={{ width: size, height: size, fontSize: Math.round(size * 0.36) }}
-      className={`inline-flex shrink-0 items-center justify-center rounded-full font-bold ${tintFor(seed)} ${ring ? "ring-2 ring-bg" : ""}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full font-bold ${tintFor(seed)} ${ring ? "ring-bg ring-2" : ""}`}
     >
       {initials(name)}
     </span>

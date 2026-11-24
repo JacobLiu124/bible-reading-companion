@@ -1,9 +1,7 @@
 "use server";
 
 import { type ActionResult, runAction } from "@/lib/actions";
-import {
-  commentSchema, firstIssue, generalPostSchema, readingPostSchema,
-} from "@/lib/validation";
+import { commentSchema, firstIssue, generalPostSchema, readingPostSchema } from "@/lib/validation";
 
 // ---------- reading ----------
 export async function checkInAction(): Promise<ActionResult> {
@@ -24,8 +22,11 @@ export async function createReadingPostAction(_: ActionResult, form: FormData): 
   const { body, verseRef, verseText } = parsed.data;
   return runAction((sb) =>
     sb.rpc("create_reading_post", {
-      group_ids: groupIds, to_global: toGlobal,
-      body: body ?? "", verse_ref: verseRef ?? "", verse_text: verseText ?? "",
+      group_ids: groupIds,
+      to_global: toGlobal,
+      body: body ?? "",
+      verse_ref: verseRef ?? "",
+      verse_text: verseText ?? "",
     }),
   );
 }
@@ -38,7 +39,11 @@ export async function createGeneralPostAction(_: ActionResult, form: FormData): 
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   const groupId = String(form.get("groupId") ?? "");
   return runAction((sb) =>
-    sb.rpc("create_general_post", { group_id: groupId, title: parsed.data.title ?? "", body: parsed.data.body }),
+    sb.rpc("create_general_post", {
+      group_id: groupId,
+      title: parsed.data.title ?? "",
+      body: parsed.data.body,
+    }),
   );
 }
 
@@ -51,10 +56,19 @@ export async function editPostAction(_: ActionResult, form: FormData): Promise<A
   const id = String(form.get("id"));
   const kind = String(form.get("kind"));
   if (kind === "general") {
-    const parsed = generalPostSchema.safeParse({ title: form.get("title") ?? undefined, body: form.get("body") ?? "" });
+    const parsed = generalPostSchema.safeParse({
+      title: form.get("title") ?? undefined,
+      body: form.get("body") ?? "",
+    });
     if (!parsed.success) return { error: firstIssue(parsed.error) };
     return runAction((sb) =>
-      sb.rpc("edit_post", { id, title: parsed.data.title ?? "", body: parsed.data.body, verse_ref: "", verse_text: "" }),
+      sb.rpc("edit_post", {
+        id,
+        title: parsed.data.title ?? "",
+        body: parsed.data.body,
+        verse_ref: "",
+        verse_text: "",
+      }),
     );
   }
   const parsed = readingPostSchema.safeParse({
@@ -65,8 +79,11 @@ export async function editPostAction(_: ActionResult, form: FormData): Promise<A
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   return runAction((sb) =>
     sb.rpc("edit_post", {
-      id, title: "", body: parsed.data.body ?? "",
-      verse_ref: parsed.data.verseRef ?? "", verse_text: parsed.data.verseText ?? "",
+      id,
+      title: "",
+      body: parsed.data.body ?? "",
+      verse_ref: parsed.data.verseRef ?? "",
+      verse_text: parsed.data.verseText ?? "",
     }),
   );
 }
@@ -79,7 +96,9 @@ export async function deletePostAction(id: string): Promise<ActionResult> {
 export async function addCommentAction(_: ActionResult, form: FormData): Promise<ActionResult> {
   const parsed = commentSchema.safeParse({ body: form.get("body") ?? "" });
   if (!parsed.success) return { error: firstIssue(parsed.error) };
-  return runAction((sb) => sb.rpc("add_comment", { post_id: String(form.get("postId")), body: parsed.data.body }));
+  return runAction((sb) =>
+    sb.rpc("add_comment", { post_id: String(form.get("postId")), body: parsed.data.body }),
+  );
 }
 
 export async function editCommentAction(_: ActionResult, form: FormData): Promise<ActionResult> {
@@ -103,7 +122,10 @@ export async function reportAction(_: ActionResult, form: FormData): Promise<Act
   const commentId = form.get("commentId") ? String(form.get("commentId")) : null;
   return runAction((sb) =>
     sb.rpc("report_content", {
-      post_id: postId as string, comment_id: commentId as string, reason, note,
+      post_id: postId as string,
+      comment_id: commentId as string,
+      reason,
+      note,
     }),
   );
 }

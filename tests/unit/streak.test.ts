@@ -53,7 +53,10 @@ describe("computeStreak", () => {
 
   test("empty input", () => {
     expect(computeStreak({ checkIns: [], goalHistory: [], today: "2026-12-01" })).toEqual({
-      current: 0, best: 0, thisWeekCount: 0, thisWeekGoal: 3,
+      current: 0,
+      best: 0,
+      thisWeekCount: 0,
+      thisWeekGoal: 3,
     });
   });
 

@@ -5,7 +5,8 @@ import { useActionState } from "react";
 import { checkInAction } from "@/app/(app)/actions";
 import { FormError } from "@/components/ui";
 
-const circle = "flex size-28 flex-col items-center justify-center gap-1 rounded-full text-sm font-bold transition-transform";
+const circle =
+  "flex size-28 flex-col items-center justify-center gap-1 rounded-full text-sm font-bold transition-transform";
 
 export function CheckInButton({ checkedIn, readOnly }: { checkedIn: boolean; readOnly: boolean }) {
   const [state, action, pending] = useActionState(checkInAction, undefined);

@@ -5,8 +5,16 @@ import { useOptimistic, useTransition } from "react";
 import { toggleReactionAction } from "@/app/(app)/actions";
 
 export function ReactionButton({
-  postId, count, reacted, disabled,
-}: { postId: string; count: number; reacted: boolean; disabled?: boolean }) {
+  postId,
+  count,
+  reacted,
+  disabled,
+}: {
+  postId: string;
+  count: number;
+  reacted: boolean;
+  disabled?: boolean;
+}) {
   const [state, setState] = useOptimistic({ count, reacted });
   const [, start] = useTransition();
   return (

@@ -31,7 +31,11 @@ export async function deleteAccountAction(_: ActionResult, form: FormData): Prom
   const uid = claims?.claims?.sub;
   if (!uid) return { error: friendlyError({ message: "forbidden" }) };
   const { data: profile } = await supabase.from("profiles").select("username").eq("id", uid).single();
-  if (String(form.get("confirm") ?? "").trim().toLowerCase() !== profile?.username) {
+  if (
+    String(form.get("confirm") ?? "")
+      .trim()
+      .toLowerCase() !== profile?.username
+  ) {
     return { error: "Type your username exactly to confirm." };
   }
   const { error } = await supabase.rpc("delete_my_account");

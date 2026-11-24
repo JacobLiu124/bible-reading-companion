@@ -32,7 +32,11 @@ function choose(t: Theme) {
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, read, () => "system" as Theme);
   return (
-    <div role="radiogroup" aria-label="Theme" className="inline-flex rounded-full border border-line bg-surface p-1 text-sm">
+    <div
+      role="radiogroup"
+      aria-label="Theme"
+      className="border-line bg-surface inline-flex rounded-full border p-1 text-sm"
+    >
       {(["light", "dark", "system"] as const).map((t) => (
         <button
           key={t}

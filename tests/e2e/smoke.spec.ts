@@ -31,9 +31,13 @@ test("daily loop: sign up, check in, share to the global thread, streak updates"
   await expect(page.locator("article", { hasText: reflection })).toBeVisible();
 });
 
-test("account deleted on another device: the stale session signs out instead of looping", async ({ browser }) => {
+test("account deleted on another device: the stale session signs out instead of looping", async ({
+  browser,
+}) => {
   const phone = await signUp(browser, "Del");
-  const laptop = await (await browser.newContext({ storageState: await phone.context().storageState() })).newPage();
+  const laptop = await (
+    await browser.newContext({ storageState: await phone.context().storageState() })
+  ).newPage();
 
   await phone.goto("/settings");
   await phone.getByLabel(/Type .* to confirm/).fill(`del_${run}`);

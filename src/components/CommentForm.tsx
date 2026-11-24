@@ -5,7 +5,10 @@ import { addCommentAction } from "@/app/(app)/actions";
 import { Button, FormError, Textarea } from "@/components/ui";
 
 export function CommentForm({
-  postId, rules, verse, disabledReason,
+  postId,
+  rules,
+  verse,
+  disabledReason,
 }: {
   postId: string;
   rules: string;
@@ -14,27 +17,35 @@ export function CommentForm({
 }) {
   const [state, action, pending] = useActionState(addCommentAction, undefined);
   const ref = useRef<HTMLFormElement>(null);
-  useEffect(() => { if (state?.ok) ref.current?.reset(); }, [state]);
+  useEffect(() => {
+    if (state?.ok) ref.current?.reset();
+  }, [state]);
   return (
     <form ref={ref} action={action} className="space-y-3">
       <input type="hidden" name="postId" value={postId} />
       {(rules || verse) && (
-        <div className="space-y-2 rounded-xl bg-surface-2 px-3 py-2.5 text-xs text-muted">
+        <div className="bg-surface-2 text-muted space-y-2 rounded-xl px-3 py-2.5 text-xs">
           {rules && (
             <p>
-              <span className="font-semibold text-ink">Rules: </span>
+              <span className="text-ink font-semibold">Rules: </span>
               {rules}
             </p>
           )}
           {verse && (
-            <blockquote className="border-l-2 border-accent pl-2.5">
+            <blockquote className="border-accent border-l-2 pl-2.5">
               <p className="text-ink">&ldquo;{verse.text}&rdquo;</p>
               <p className="mt-0.5">{verse.reference}</p>
             </blockquote>
           )}
         </div>
       )}
-      <Textarea name="body" maxLength={1000} placeholder={disabledReason ?? "Add a reply…"} disabled={Boolean(disabledReason)} required />
+      <Textarea
+        name="body"
+        maxLength={1000}
+        placeholder={disabledReason ?? "Add a reply…"}
+        disabled={Boolean(disabledReason)}
+        required
+      />
       <FormError message={state?.error} />
       <Button disabled={pending || Boolean(disabledReason)}>{pending ? "Posting…" : "Reply"}</Button>
     </form>

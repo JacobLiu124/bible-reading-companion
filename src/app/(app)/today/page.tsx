@@ -46,8 +46,13 @@ async function Today() {
     supabase.from("check_ins").select("local_date").gte("local_date", addDays(today, -400)),
     supabase.from("goal_history").select("effective_week_start, goal"),
     getMyGroups(viewer.id),
-    supabase.from("feed_posts").select("*").is("group_id", null).eq("reading_date", today)
-      .order("created_at", { ascending: false }).limit(100),
+    supabase
+      .from("feed_posts")
+      .select("*")
+      .is("group_id", null)
+      .eq("reading_date", today)
+      .order("created_at", { ascending: false })
+      .limit(100),
     supabase.rpc("friends_read_today"),
   ]);
 
@@ -55,7 +60,10 @@ async function Today() {
   const checkedIn = dates.includes(today);
   const streak = computeStreak({
     checkIns: dates,
-    goalHistory: (goals.data ?? []).map((g) => ({ effectiveWeekStart: g.effective_week_start, goal: g.goal })),
+    goalHistory: (goals.data ?? []).map((g) => ({
+      effectiveWeekStart: g.effective_week_start,
+      goal: g.goal,
+    })),
     today,
   });
   const monday = weekStart(today);
@@ -70,16 +78,16 @@ async function Today() {
       <section className="space-y-5">
         <FriendsRow friends={friendList} inAnyGroup={groups.length > 0} />
         <div>
-          <p className="text-sm text-muted">{formatDay(today)}</p>
+          <p className="text-muted text-sm">{formatDay(today)}</p>
           {chapter ? (
             <>
               <h1 className="mt-1 text-5xl font-bold tracking-tight">{chapter}</h1>
-              <p className="mt-2 text-muted">Today&apos;s chapter for everyone. Grab your Bible.</p>
+              <p className="text-muted mt-2">Today&apos;s chapter for everyone. Grab your Bible.</p>
             </>
           ) : (
             <>
               <h1 className="mt-1 text-3xl font-bold tracking-tight">No reading scheduled today</h1>
-              <p className="mt-2 text-muted">You can still check in to keep your streak going.</p>
+              <p className="text-muted mt-2">You can still check in to keep your streak going.</p>
             </>
           )}
         </div>
@@ -99,7 +107,10 @@ async function Today() {
       <section>
         <SectionTitle
           action={
-            <Link href={`/global/${addDays(today, -1)}`} className="inline-flex items-center gap-0.5 text-sm font-medium text-accent hover:underline">
+            <Link
+              href={`/global/${addDays(today, -1)}`}
+              className="text-accent inline-flex items-center gap-0.5 text-sm font-medium hover:underline"
+            >
               <ChevronLeft size={16} aria-hidden /> Yesterday
             </Link>
           }
@@ -107,8 +118,10 @@ async function Today() {
           {chapter ? `Everyone on ${chapter}` : "The global thread"}
         </SectionTitle>
         {posts.length === 0 ? (
-          <p className="py-6 text-muted">
-            {chapter ? "No one has shared yet today. Check in and share what stood out." : "Nothing here today."}
+          <p className="text-muted py-6">
+            {chapter
+              ? "No one has shared yet today. Check in and share what stood out."
+              : "Nothing here today."}
           </p>
         ) : (
           <PostList>
