@@ -27,6 +27,7 @@ test("covers the codes the database raises", () => {
       "no_destination",
       "invalid_duration",
       "invalid_goal",
+      "undo_expired",
     ]),
   );
 });

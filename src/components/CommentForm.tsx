@@ -32,8 +32,8 @@ export function CommentForm({
             </p>
           )}
           {verse && (
-            <blockquote className="border-accent border-l-2 pl-2.5">
-              <p className="text-ink">&ldquo;{verse.text}&rdquo;</p>
+            <blockquote>
+              <p className="font-scripture text-ink text-sm leading-relaxed">&ldquo;{verse.text}&rdquo;</p>
               <p className="mt-0.5">{verse.reference}</p>
             </blockquote>
           )}

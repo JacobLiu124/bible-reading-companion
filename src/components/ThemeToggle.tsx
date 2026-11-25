@@ -44,7 +44,7 @@ export function ThemeToggle() {
           role="radio"
           aria-checked={theme === t}
           onClick={() => choose(t)}
-          className={`rounded-full px-3 py-1 capitalize ${theme === t ? "bg-accent text-accent-ink" : "text-muted"}`}
+          className={`min-h-9 rounded-full px-4 py-1.5 capitalize ${theme === t ? "bg-accent text-accent-ink" : "text-muted"}`}
         >
           {t}
         </button>

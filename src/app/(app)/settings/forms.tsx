@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useSyncExternalStore } from "react";
+import { startTransition, useActionState, useMemo, useSyncExternalStore } from "react";
 import { Button, Field, FormError, Input, Select } from "@/components/ui";
 import { DENOMINATIONS } from "@/lib/denominations";
 import { deleteAccountAction, updateProfileAction } from "./actions";
@@ -22,7 +22,17 @@ export function ProfileForm({ initial, readOnly }: { initial: ProfileInit; readO
     [all, initial.timezone],
   );
   return (
-    <form action={action} className="space-y-4">
+    <form
+      // Submitted from onSubmit rather than `action`: React 19 calls the browser's form.reset() after a
+      // form action, which puts every select back to the value it was first served with, so a
+      // just-saved weekly goal would jump back to the old one. These fields should keep their values.
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        startTransition(() => action(data));
+      }}
+      className="space-y-4"
+    >
       <Field label="Your name">
         <Input
           name="displayName"

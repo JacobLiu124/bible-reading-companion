@@ -94,7 +94,7 @@ export function ContentMenu({
     <>
       <details className="relative [&_summary::-webkit-details-marker]:hidden">
         <summary
-          className="text-muted hover:bg-surface-2 hover:text-ink flex cursor-pointer list-none items-center rounded-full p-1.5"
+          className="text-muted hover:bg-surface-2 hover:text-ink relative flex cursor-pointer list-none items-center rounded-full p-1.5 after:absolute after:-inset-[7px] after:content-['']"
           aria-label="More actions"
         >
           <Ellipsis size={18} aria-hidden />

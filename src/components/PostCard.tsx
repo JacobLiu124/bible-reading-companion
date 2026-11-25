@@ -82,9 +82,11 @@ export function PostCard({
           <div className={`mt-2 space-y-2 ${removed ? "opacity-60" : ""}`}>
             {post.title && <h3 className="font-bold">{post.title}</h3>}
             {post.verse_text && (
-              <blockquote className="border-accent border-l-2 pl-3">
-                <p>&ldquo;{post.verse_text}&rdquo;</p>
-                {post.verse_ref && <p className="text-muted mt-0.5 text-sm">{post.verse_ref}</p>}
+              <blockquote>
+                <p className="font-scripture text-[1.0625rem] leading-relaxed">
+                  &ldquo;{post.verse_text}&rdquo;
+                </p>
+                {post.verse_ref && <p className="text-muted mt-1 text-sm">{post.verse_ref}</p>}
               </blockquote>
             )}
             {!post.verse_text && post.verse_ref && <p className="text-muted text-sm">{post.verse_ref}</p>}
@@ -102,7 +104,7 @@ export function PostCard({
           {linkToPost && (
             <Link
               href={`/posts/${post.id}`}
-              className="text-muted hover:bg-surface-2 hover:text-ink inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium"
+              className="text-muted hover:bg-surface-2 hover:text-ink relative inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium after:absolute after:inset-x-0 after:-inset-y-2 after:content-['']"
             >
               <MessageCircle size={16} aria-hidden />
               {comments > 0 ? `${comments} ${comments === 1 ? "reply" : "replies"}` : "Reply"}

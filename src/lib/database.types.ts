@@ -718,6 +718,9 @@ isOneToOne: false
 "unblock_user":
 { Args: { "uid": string }; Returns: undefined
                            },
+"undo_check_in":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "update_group":
 { Args: { "denomination": string,"description": string,"gid": string,"name": string,"rules": string }; Returns: undefined
                            },
