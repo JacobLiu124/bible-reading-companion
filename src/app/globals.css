@@ -4,7 +4,8 @@
 
 /*
  * OneJoy "Together": white surfaces and deep-navy ink.
- * Cobalt is the one action colour. Sunny yellow ("joy") marks days read and nothing else.
+ * Cobalt is the one action colour. Sunny yellow ("joy") marks reading done or in progress.
+ * Green ("done") marks finished books on the profile shelf.
  */
 :root {
   --bg: #ffffff;
@@ -18,6 +19,8 @@
   --accent-soft: #e8eefe;
   --joy: #ffc93c;
   --joy-ink: #6b4e00;
+  --done: #2f8f5b;
+  --done-ink: #ffffff;
   --danger: #c0362c;
   --ok: #1f7a4d;
 }
@@ -33,6 +36,8 @@
   --accent-soft: #1e2a4f;
   --joy: #ffc93c;
   --joy-ink: #6b4e00;
+  --done: #46a870;
+  --done-ink: #0d1322;
   --danger: #f2a39c;
   --ok: #7fd3a6;
 }
@@ -49,9 +54,12 @@
   --color-accent-soft: var(--accent-soft);
   --color-joy: var(--joy);
   --color-joy-ink: var(--joy-ink);
+  --color-done: var(--done);
+  --color-done-ink: var(--done-ink);
   --color-danger: var(--danger);
   --color-ok: var(--ok);
   --font-sans: var(--font-figtree);
+  --font-scripture: var(--font-source-serif);
 }
 
 html {

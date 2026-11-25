@@ -17,14 +17,16 @@ async function signUp(browser: Browser, name: string): Promise<Page> {
 
 test("daily loop: sign up, check in, share to the global thread, streak updates", async ({ browser }) => {
   const page = await signUp(browser, "Ada");
-  await expect(page.getByText("Grab your Bible.")).toBeVisible();
-  await expect(page.getByText("0 of 3")).toBeVisible();
+  await expect(page.getByText(/Grab your Bible/)).toBeVisible();
+  await expect(page.getByText(/^0 read/)).toBeVisible();
 
   await page.getByRole("button", { name: "I read it" }).click();
   await expect(page.getByRole("status").getByText("Read today")).toBeVisible();
-  await expect(page.getByText("1 of 3")).toBeVisible();
+  await expect(page.getByText(/^1 read/)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Undo" })).toBeVisible();
 
   const reflection = `Smoke test reflection ${run}`;
+  await page.getByText("Share what stood out", { exact: true }).click();
   await page.getByLabel("Your reflection").fill(reflection);
   await page.getByRole("button", { name: "Share", exact: true }).click();
   await expect(page.getByText("Shared", { exact: true })).toBeVisible();

@@ -1,3 +1,5 @@
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { Suspense } from "react";
 import { ActionButton } from "@/components/ActionButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -14,6 +16,18 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <PageTitle>Settings</PageTitle>
+      <Link
+        href="/profile"
+        className="bg-surface-2 hover:bg-line flex min-h-11 items-center justify-between gap-3 rounded-2xl p-5 transition-colors"
+      >
+        <span>
+          <span className="block font-bold">Your profile and reading plan</span>
+          <span className="text-muted block text-sm">
+            Your streaks and the bookshelf of books you&apos;ve read
+          </span>
+        </span>
+        <ChevronRight size={20} className="text-muted shrink-0" aria-hidden />
+      </Link>
       <Card>
         <h2 className="mb-3 text-lg font-bold">Appearance</h2>
         <ThemeToggle />

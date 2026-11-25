@@ -1,8 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree } from "next/font/google";
+import { Figtree, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 const figtree = Figtree({ variable: "--font-figtree", subsets: ["latin"] });
+// Reserved for quoted scripture, so the Bible's words read differently from the app's own.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  style: ["normal"],
+});
 
 export const metadata: Metadata = {
   title: { default: "OneJoy — read the Bible together", template: "%s · OneJoy" },
@@ -22,7 +28,11 @@ const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!==
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${figtree.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${figtree.variable} ${sourceSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

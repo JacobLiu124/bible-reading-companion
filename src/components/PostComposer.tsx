@@ -5,7 +5,15 @@ import { createGeneralPostAction, createReadingPostAction } from "@/app/(app)/ac
 import { Button, Field, FormError, Input, Select, Textarea } from "@/components/ui";
 import type { GroupOption } from "@/lib/types";
 
-export function ReadingComposer({ groups, readOnly }: { groups: GroupOption[]; readOnly: boolean }) {
+export function ReadingComposer({
+  groups,
+  defaultDestination = "global",
+  readOnly,
+}: {
+  groups: GroupOption[];
+  defaultDestination?: string;
+  readOnly: boolean;
+}) {
   const [state, action, pending] = useActionState(createReadingPostAction, undefined);
   const formRef = useRef<HTMLFormElement>(null);
   useEffect(() => {
@@ -25,7 +33,7 @@ export function ReadingComposer({ groups, readOnly }: { groups: GroupOption[]; r
         </Field>
       </div>
       <Field label="Share to" hint={groups.length ? "Share again to post it somewhere else too." : undefined}>
-        <Select name="destination" defaultValue="global">
+        <Select name="destination" defaultValue={defaultDestination}>
           <option value="global">Global thread</option>
           {groups.map((g) => (
             <option key={g.id} value={g.id}>

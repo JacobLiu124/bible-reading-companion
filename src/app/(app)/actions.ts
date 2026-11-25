@@ -8,6 +8,10 @@ export async function checkInAction(): Promise<ActionResult> {
   return runAction((sb) => sb.rpc("check_in"));
 }
 
+export async function undoCheckInAction(): Promise<ActionResult> {
+  return runAction((sb) => sb.rpc("undo_check_in"));
+}
+
 export async function createReadingPostAction(_: ActionResult, form: FormData): Promise<ActionResult> {
   const parsed = readingPostSchema.safeParse({
     body: form.get("body") ?? undefined,

@@ -14,6 +14,7 @@ const MESSAGES = {
   no_destination: "Choose at least one group or the global thread.",
   invalid_duration: "Mutes last 1 or 7 days.",
   invalid_goal: "Pick a weekly goal between 1 and 7.",
+  undo_expired: "It's been more than 10 minutes, so this check-in can't be undone.",
 } as const;
 
 export type ErrorCode = keyof typeof MESSAGES;
