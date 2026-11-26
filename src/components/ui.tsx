@@ -5,7 +5,7 @@ const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).jo
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-accent-ink hover:brightness-110",
+  primary: "bg-primary text-primary-ink hover:brightness-95",
   secondary: "bg-surface-2 text-ink hover:bg-line",
   ghost: "text-muted hover:text-ink hover:bg-surface-2",
   danger: "bg-surface-2 text-danger hover:bg-line",

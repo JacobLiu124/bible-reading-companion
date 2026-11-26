@@ -4,7 +4,8 @@
 
 /*
  * OneJoy "Together": white surfaces and deep-navy ink.
- * Cobalt is the one action colour. Sunny yellow ("joy") marks reading done or in progress.
+ * Joy yellow (#fbe106) fills buttons, with navy text (yellow is too light for white text or links).
+ * Cobalt is for links, focus rings and selection. The same yellow marks reading done or in progress.
  * Green ("done") marks finished books on the profile shelf.
  */
 :root {
@@ -17,7 +18,9 @@
   --accent: #2f5bea;
   --accent-ink: #ffffff;
   --accent-soft: #e8eefe;
-  --joy: #ffc93c;
+  --primary: #fbe106;
+  --primary-ink: #14213d;
+  --joy: #fbe106;
   --joy-ink: #6b4e00;
   --done: #2f8f5b;
   --done-ink: #ffffff;
@@ -34,7 +37,9 @@
   --accent: #7d9bff;
   --accent-ink: #0d1322;
   --accent-soft: #1e2a4f;
-  --joy: #ffc93c;
+  --primary: #fbe106;
+  --primary-ink: #0d1322;
+  --joy: #fbe106;
   --joy-ink: #6b4e00;
   --done: #46a870;
   --done-ink: #0d1322;
@@ -52,6 +57,8 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
   --color-joy: var(--joy);
   --color-joy-ink: var(--joy-ink);
   --color-done: var(--done);
