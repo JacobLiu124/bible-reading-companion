@@ -33,6 +33,20 @@ test("daily loop: sign up, check in, share to the global thread, streak updates"
   await expect(page.locator("article", { hasText: reflection })).toBeVisible();
 });
 
+test("sign-up: password meter goes red, yellow, green", async ({ page }) => {
+  await page.goto("/sign-up");
+  const password = page.getByLabel("Password");
+  const meter = page.locator("#password-strength");
+  await expect(meter).toHaveText("At least 8 characters.");
+
+  await password.fill("abc12");
+  await expect(meter).toContainText("Too short");
+  await password.fill("abc12345xyz");
+  await expect(meter).toContainText("Okay");
+  await password.fill("abc12345xyz!Q");
+  await expect(meter).toContainText("Strong");
+});
+
 test("weekly goal: settings keeps showing the goal you saved", async ({ browser }) => {
   const page = await signUp(browser, "Gil");
   await page.goto("/settings");

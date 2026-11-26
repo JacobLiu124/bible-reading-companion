@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/", "/sign-in", "/sign-up", "/privacy"];
+// /auth/confirm is where the emailed confirmation link lands, before the person has a session.
+const PUBLIC_PATHS = ["/", "/sign-in", "/sign-up", "/privacy", "/auth/confirm"];
 const AUTH_PAGES = ["/", "/sign-in", "/sign-up"];
 
 /** Refreshes the Supabase session cookie and does optimistic auth redirects. */
