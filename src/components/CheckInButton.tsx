@@ -58,7 +58,7 @@ export function CheckInButton({
   return (
     <form action={action} className="flex flex-col items-center gap-2">
       <button
-        className={`${circle} bg-accent text-accent-ink hover:brightness-110 active:scale-95 disabled:opacity-50`}
+        className={`${circle} bg-primary text-primary-ink hover:brightness-95 active:scale-95 disabled:opacity-50`}
         disabled={pending || readOnly}
         title={readOnly ? "The demo is read-only" : undefined}
       >
